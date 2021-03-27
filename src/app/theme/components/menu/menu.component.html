@@ -1,0 +1,108 @@
+<div class="top-navbar mat-elevation-z2" fxLayoutAlign="center center">
+
+    <a mat-button routerLink="/" routerLinkActive="horizontal-active-link" class="nav-anchor"
+        [routerLinkActiveOptions]="{exact:true}" >Home</a>
+
+        <div *ngIf="tmpProdid" class="overlay-mega-menu" (click)="tmpProdid = null"></div>
+
+    <div *ngFor="let item of items; let i = index;" style="position: relative;">
+        <a mat-button (click)="openMegaMenu(item.ProductType_Id)" class="nav-anchor">
+          {{ item.ProductType_Name  }}
+          <fa *ngIf="tmpProdid != item.ProductType_Id" name="chevron-down" ></fa>
+          <fa *ngIf="tmpProdid == item.ProductType_Id" name='chevron-up'></fa>
+            <!-- <mat-icon class="caret">arrow_drop_down</mat-icon> -->
+         </a>
+
+         <div *ngIf="tmpProdid == item.ProductType_Id" fxLayout="row wrap" style="max-height: 470px; overflow: auto;"  class="mega-menu app-dropdown">
+            <div *ngFor="let Catitem of Categoryitem;let i = index;" fxFlex="16" fxLayout="column"
+                class="p-1 divHeight">
+
+                <a mat-menu-item routerLink="/" class="head"  (click)="tmpProdid = null"><b>{{ Catitem.CategoryHead_Name }}</b></a>
+
+                <mat-divider></mat-divider>
+
+                <div style="max-height: 350px;overflow: auto">
+                    <span *ngFor="let list of Categorylist;"
+                        [ngClass]="{'hide': Catitem.CategoryHead_Id != list.CategoryHead_Id }">
+                            <a *ngIf="Catitem.CategoryHead_Id == list.CategoryHead_Id" mat-menu-item
+                            [routerLink]="['/products',list.CategoryDesc,{ID:[list.CategoryID],HeadId:[list.CategoryHead_Id],ProdTypeId:[item.ProductType_Id]}]"
+                            routerLinkActive="horizontal-active-link" (click)="tmpProdid = null"
+                            [routerLinkActiveOptions]="{exact:true}">{{list.CategoryDesc }}</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <a mat-button routerLink="/brands" routerLinkActive="horizontal-active-link" class="nav-anchor"
+        [routerLinkActiveOptions]="{exact:true}" (click)="tmpProdid = null">Brands</a>
+    </div>
+
+
+    <!-- <a mat-button routerLink="/contact" routerLinkActive="horizontal-active-link"
+        [routerLinkActiveOptions]="{exact:true}">Contact</a> -->
+
+    <!-- <div>
+          <select #langSelect (change)="translate.use(langSelect.value)">
+            <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+          </select>
+      </div> -->
+
+
+<!--
+<a mat-button [matMenuTriggerFor]="menu" (click)="openMegaMenu()">Fashion<mat-icon class="caret">arrow_drop_down</mat-icon></a>
+    <mat-menu #menu="matMenu" [overlapTrigger]="false" class="mega-menu app-dropdown">
+        <div fxLayout="row wrap">
+            <div fxFlex="20" fxLayout="column" class="p-1">
+                <a mat-menu-item routerLink="/"><b>WOMEN</b></a>
+                <mat-divider></mat-divider>
+                <a mat-menu-item routerLink="/">Dresses & Skirts</a>
+                <a mat-menu-item routerLink="/">Jackets</a>
+                <a mat-menu-item routerLink="/">Tops & Blouses</a>
+                <a mat-menu-item routerLink="/">Shoes & Boots</a>
+                <a mat-menu-item routerLink="/">Knitwear</a>
+            </div>
+            <div fxFlex="20" class="p-1">
+                <a mat-menu-item routerLink="/"><b>MEN</b></a>
+                <mat-divider></mat-divider>
+                <button mat-menu-item>T-shirts & Polos</button>
+                <button mat-menu-item>Shoes & Boots</button>
+                <button mat-menu-item>Jeans</button>
+                <button mat-menu-item>Coats</button>
+            </div>
+
+            <div fxFlex="20" class="p-1">
+                <mat-card class="mega-menu-widget p-0">
+                    <mat-chip-list>
+                        <mat-chip color="warn" selected="true">50% OFF</mat-chip>
+                    </mat-chip-list>
+                    <button mat-raised-button color="primary">Shop now</button>
+                    <img src="assets/images/others/mega_menu_img.png" alt="" class="w-100">
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-menu>
+
+    <a mat-button [routerLink]="['/products', 'jewellery']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Jewellery</a>
+    <a mat-button [routerLink]="['/products', 'electronics']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Electronics</a>
+    <a mat-button [routerLink]="['/products', 'sports']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Sports</a>
+    <a mat-button [routerLink]="['/products', 'motors']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Motors</a>
+
+    <a mat-button [matMenuTriggerFor]="animals">Pages<mat-icon class="caret">arrow_drop_down</mat-icon></a>
+    <mat-menu #animals="matMenu" [overlapTrigger]="false" class="app-dropdown">
+        <a mat-menu-item routerLink="/products" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">All products</a>
+        <a mat-menu-item [routerLink]="['/products', '2', 'PC All-in-One']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Product detail</a>
+        <a mat-menu-item routerLink="/contact" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Contact</a>
+        <a mat-menu-item routerLink="/sign-in">Sign in</a>
+        <a mat-menu-item routerLink="/404">404 Error</a>
+        <a mat-menu-item [matMenuTriggerFor]="others">Others</a>
+    </mat-menu>
+
+    <mat-menu #others="matMenu" class="app-dropdown">
+        <a mat-menu-item href="http://themeseason.com" target="_blank">External Link</a>
+        <a mat-menu-item>Menu item</a>
+        <a mat-menu-item>Menu item</a>
+        <a mat-menu-item>Menu item</a>
+    </mat-menu>  -->

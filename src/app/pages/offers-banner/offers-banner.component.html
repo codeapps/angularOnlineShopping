@@ -1,0 +1,67 @@
+<div fxLayout="row wrap" *ngIf="products.length>0">
+    <div fxLayout="column" fxFlex="100" class="img-offer">
+        <h2>Today Special Sales</h2>
+        <marquee behavior="scroll" direction="left" scrollamount="12"
+            onmouseover="this.setAttribute('scrollamount', 20, 0);"
+            onmouseout="this.setAttribute('scrollamount', 8, 0);">{{text}}</marquee>
+    </div>
+    <div fxLayout="row wrap" fxFlex="100" class="headTemp">
+        <div [swiper]="config" class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let product of products;let i=index">
+                    <mat-card class="product-item text-center">
+                        <a [routerLink]="['/products', product.id, product.name]" fxFlex="50" class="image-link">
+                            <img [src]="product.images[0].medium"
+                                onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'"
+                                alt="">
+                        </a>
+                        <div fxFlex="50">
+                            <div class="btnOffer">
+                                <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                                    <span class="offer-price">{{product.discount}}% Off</span>
+                                </button>
+                            </div>                           
+                            <div class="product-text">
+                                <a matTooltip="{{product.name}}" [routerLink]="['/products', product.id, product.name]">
+                                    {{product.name}}
+                                </a>
+                            </div>
+                            <p class="cat-product">{{categoryName[i]}}</p>
+                        </div>
+                        <!-- <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                        <div fxLayout="column" fxLayoutAlign="center start">
+                            <p class="old-price text-muted">
+                                <span *ngIf="product.oldPrice">
+                                    &#8377;{{product.oldPrice | number : '1.2-2'}}
+                                </span>
+                            </p>
+                            <p fxLayout="row wrap" class="new-price" fxLayoutGap='3px'>
+                                <span [ngClass]="{activePrice: product.discount > 0}">
+                                    &#8377;{{product.newPrice | number : '1.2-2'}}
+                                </span>
+                                <span *ngIf="product.discount > 0">
+                                    &#8377;{{product.newPrice - (product.newPrice * product.discount) / 100 | number : '1.2-2' }}
+                                </span>
+                            </p>
+                        </div>
+                        <app-rating [ratingsCount]="product.ratingsCount" [ratingsValue]="5" [direction]="'column'">
+                        </app-rating>
+                    </div> -->
+                        <!-- <div class="divider mt-2"></div>
+                    <div class="icons">
+                        <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)">
+                        </app-controls>
+                    </div> -->
+                    </mat-card>
+                </div>
+            </div>
+            <button mat-button class="btn-arrow left-button">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <button mat-button class="btn-arrow right-button">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+
+        </div>
+    </div>
+</div>

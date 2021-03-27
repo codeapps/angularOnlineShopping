@@ -1,0 +1,70 @@
+.swiper-container {
+    position: relative;
+
+    
+  
+}
+
+.product-item {
+    box-shadow: none !important;
+
+    .image-link {
+
+        img {
+            height: 160px;
+        }
+    }
+
+    p {
+        font-weight: 900;
+        margin-top: 10px;
+    }
+}
+
+.header {
+   padding: 10px;
+}
+
+.product-text {
+    height: 30px;
+    max-height: 30px;
+
+    a {
+        color: black;
+        text-decoration: none;
+        font-size: inherit;
+        font-weight: 400;
+        font-family: inherit;
+    }
+}
+
+.swiper-button-left{
+    position: absolute;
+    top: 45%;
+    z-index: 10;
+    left: 0;
+    background: #fff;
+    width: 40px;
+    height: 50px;
+    vertical-align: middle;
+    padding: 7px;
+    line-height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
+}
+.swiper-button-right {
+    position: absolute;
+    top: 45%;
+    z-index: 10;
+    right: 0;
+    background: #fff;
+    width: 40px;
+    height: 50px;
+    vertical-align: middle;
+    padding: 7px;
+    line-height: 50px;
+    border: 1px solid #ccc;
+    border-radius: 5px 0px 0px 5px;
+    cursor: pointer;
+}

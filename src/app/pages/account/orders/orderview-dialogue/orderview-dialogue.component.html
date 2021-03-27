@@ -1,0 +1,52 @@
+<h1 mat-dialog-title>
+
+  <p fxLayoutAlign='space-between center'>
+    <span class="ordermainId">Order Id :&nbsp;{{ordermainId}}&nbsp;</span>
+    <span>
+      <span *ngIf="DataSource.OrderMain_Flag == 'Billed'">Billed&nbsp;</span>
+      <span class="orderDate">Order Date :&nbsp;{{fnSplitWhiteSpace(orderdate)}}</span>
+    </span>
+  </p>
+
+</h1>
+<div mat-dialog-content>
+
+
+  <div class="mat-table cart-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Product</div>
+      <div class="mat-header-cell">Name</div>
+      <div class="mat-header-cell">Price</div>
+      <div class="mat-header-cell">Quantity</div>
+      <div class="mat-header-cell">Total</div>
+      <!-- <div class="mat-header-cell">Cancel</div> -->
+    </div>
+    <div *ngFor="let product of orders; let i=index" class="mat-row">
+      <div class="mat-cell"><img #img [src]="product.ImageLoc"
+          onError="this.src ='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'"></div>
+      <div class="mat-cell">{{product.ItemDesc}}</div>
+      <div class="mat-cell">&#8377;{{product.OrderSub_SelRate| number:'1.2-2'}}</div>
+      <div class="mat-cell text-muted">{{product.OrderSub_Qty| number:'1.0-0'}}</div>
+      <div class="mat-cell">&#8377;{{(product.OrderSub_Qty * product.OrderSub_SelRate)| number:'1.2-2'}}</div>
+      <!-- <div class="p-1 actions">
+        <button mat-stroked-button color="warn" (click)="fnCancel(product.OrderMain_Id,product.UniqueId)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div> -->
+    </div>
+  </div>
+
+</div>
+
+<div mat-dialog-actions fxLayoutAlign="end center">
+  <button mat-button (click)="close()">Close</button>
+  <button mat-button color="primary" (click)="addProducts(orders)"
+    *ngIf="addProductbtn && DataSource.OrderMain_Flag != 'Billed'">
+    <mat-icon>add_shopping_cart</mat-icon><span class="addcart">Add To Cart</span>
+  </button>
+  <button mat-button color="warn" (click)="fnReset()" *ngIf="!addProductbtn && DataSource.OrderMain_Flag != 'Billed'">
+    <mat-icon>perm_scan_wifi</mat-icon><span class="addcart">Reset</span>
+  </button>
+
+
+</div>

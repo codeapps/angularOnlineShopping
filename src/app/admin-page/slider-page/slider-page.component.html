@@ -1,0 +1,44 @@
+<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="example-container">
+    <div fxLayout="column" fxFlex="80" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <div class="box-model">
+            <mat-form-field appearance="fill" class="content-field">
+                <mat-label>Offer Title</mat-label>
+                <input matInput required [(ngModel)]="title">
+            </mat-form-field><br>
+            <mat-form-field appearance="fill" class="content-field">
+                <mat-label>Offer Subtitle</mat-label>
+                <input matInput required [(ngModel)]="subTitle">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="content-field">
+                <mat-label>Description</mat-label>
+                <textarea matInput [(ngModel)]="description"></textarea>
+            </mat-form-field>
+
+            <input type="file" accept="image/*" name="image" (change)="fileProgress($event)">
+
+            <div *ngIf="fileUploadProgress">
+                Upload progress: {{ fileUploadProgress }}
+            </div>
+            <div class="image-preview mb-3" *ngIf="previewUrl && !loadingFlag">
+                <img [src]="previewUrl" height="200" />
+            </div>
+            <div *ngIf="loadingFlag">
+                <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+                  <div class="loading-container">
+                    <img class="spinner" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+                  </div>
+                </div>
+              </div>
+            <div class="mb-3" *ngIf="uploadedFilePath">
+                {{uploadedFilePath}}
+            </div>
+
+        </div>
+        <div fxLayout="row" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="10px" class="btn-action">
+            <button mat-raised-button color="primary" (click)="fnSave()">Save</button>
+            <button mat-raised-button color="warn" [routerLink]="['/sliderEditing']" routerLinkActive="router-link-active" >Edit</button>
+            <button mat-raised-button color="accent" [routerLink]="['/admin']" routerLinkActive="router-link-active" >Home</button>
+        </div>
+
+    </div>
+</div>

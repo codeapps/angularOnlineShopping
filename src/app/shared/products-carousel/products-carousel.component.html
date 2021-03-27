@@ -1,0 +1,43 @@
+
+<div *ngIf="products" class="swiper-container" [swiper]="config">
+        <div class="swiper-wrapper h-100">
+            <div *ngFor="let product of products" class="swiper-slide">
+                <mat-card class="product-item">
+                    <mat-chip-list *ngIf="product.discount">
+                        <mat-chip color="warn" selected="true">{{ product.discount }}% OFF</mat-chip>
+                    </mat-chip-list>
+                    <a [routerLink]="['/products', product.id, product.name]" class="image-link">
+                        <img [src]="product.images[0].medium" (onerror)="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'"  />
+                        <!-- <div class="swiper-lazy-preloader"></div> -->
+                    </a>
+                   <!-- <h4 class="category text-muted">{{ (appService.Data.categories | filterById : product.categoryId )?.name }}</h4> -->
+                    <div *ngFor="let item of appService.Data.CategoryLists">
+                        <h4 *ngIf="product.categoryId == item.CategoryID" class="category text-muted" >{{ item.CategoryDesc }}</h4>
+                    </div>
+                    <div class="product-text">
+                            <a matTooltip="{{product.name}}" [routerLink]="['/products', product.id, product.name]">
+                                {{product.name}}
+                            </a>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                        <div fxLayout="column" fxLayoutAlign="center start">
+                            <p class="old-price text-muted"><span *ngIf="product.oldPrice">&#8377;{{product.oldPrice | number : '1.2-2'}}</span></p>
+
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="center start">
+
+                          <p class="new-price">&#8377;{{product.newPrice | number : '1.2-2'}}</p>
+                      </div>
+                        <!-- <app-rating [ratingsCount]="product.ratingsCount" [ratingsValue]="product.ratingsValue" [direction]="'column'"></app-rating> -->
+                    </div>
+                    <div class="divider mt-2"></div>
+                    <div class="icons">
+                        <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <button mat-mini-fab class="swiper-button-prev swipe-arrow"><mat-icon>keyboard_arrow_left</mat-icon></button>
+        <button mat-mini-fab class="swiper-button-next swipe-arrow"><mat-icon>keyboard_arrow_right</mat-icon></button>
+    </div>

@@ -1,0 +1,56 @@
+<section class="container">
+  <div *ngIf="createFlag">
+    <div fxLayout="column" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <button mat-raised-button color="warn" [routerLink]="['/admin']">Home</button>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+        <ag-grid-angular style="width: 860px; height: 400px;" class="ag-theme-balham" [rowData]="manufactureList "
+          [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents" [rowSelection]="rowSelection">
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div *ngIf="!createFlag">
+    <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px">
+      <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+        <button mat-raised-button color="primary" (click)="fnUpdate()">Save</button>
+        <button mat-raised-button color="primary" (click)="fnBack()">Back</button>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="10px" fxFlex='100'>
+        <mat-form-field appearance="outline">
+          <mat-label>Brand Name</mat-label>
+          <input matInput [(ngModel)]="manufactureName" readonly>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Brand MFRNo</mat-label>
+          <input matInput [(ngModel)]="Manufacture_MFRNo" readonly>
+        </mat-form-field>
+        <input type="file" accept="image/*" name="image" (change)="fileProgress($event)">
+        <div *ngIf="fileUploadProgress">
+          Upload progress: {{ fileUploadProgress }}
+        </div>
+
+        <div class="image-preview mb-3" *ngIf="previewUrl && !loadingFlag">
+          <img [src]="previewUrl" height="200" />
+        </div>
+        <div *ngIf="loadingFlag">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <div class="loading-container">
+              <img class="spinner" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+            </div>
+          </div>
+        </div>
+        <div class="mb-3" *ngIf="uploadedFilePath">
+          {{uploadedFilePath}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

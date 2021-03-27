@@ -1,0 +1,59 @@
+<div style="padding: 10px 0px 10px 8px;" >
+  <!-- <div fxLayout="column" *ngFor="let item of banners" >
+    <div fxLayout='row' fxLayoutAlign='space-between center' class="swiper-header">
+    <h2>{{item.title}}</h2>
+    <a mat-flat-button color='primary' (click)="fnNavigate()">View All</a>
+  </div> -->
+  <div [swiper]="config" class="swiper-container" *ngFor="let item of banners" >
+    <!-- <div >
+    <img width="100%" src="assets/images/Banner/banners-head.jpg">
+    <span>{{item.title}}</span>
+  </div> -->
+    <div fxLayout='row' fxLayoutAlign='space-between center' class="swiper-header">
+      <h2>{{item.title}}</h2>
+      <a mat-flat-button color='primary' (click)="fnNavigate(item)">View All</a>
+    </div>
+    <div class="swiper-wrapper">
+      <div class="swiper-slide" *ngFor="let sub of item.sub; let i=index" >
+        <mat-card class="mat-boxContainer" (click)="fnchangeCategory(sub.id)">
+          <div fxFlex="100" fxFlex.gt-sm="100" class="banner-slide" fxLayoutAlign="center center">
+
+            <div fxFlex class="banners" fxLayoutAlign="start center">
+              <div class="banner-img" [ngStyle]="getBgImage(sub.imgLoc)">
+                <!-- <div class="banner-title" fxLayoutAlign='center center'>
+                  <div fxLayout='column' fxLayoutAlign='center center'>
+                    <h3>{{sub.title}}</h3>
+                    <a (click)="fnchangeCategory(sub.id)" mat-raised-button color="primary" class="mt-2">
+                      Shop now
+                    </a>
+                  </div>
+                </div> -->
+
+              </div>
+            </div>
+
+
+          </div>
+          <!-- <div class="banner" fxFlex="100" fxFlex.gt-sm="100" [ngStyle]="getBgImage(i)">
+                <div class="info" fxLayoutAlign="start start">
+                    <div class="px-2" fxLayout="column" fxLayoutAlign="center center">
+                        <h1 class="title">{{getBanner(i).title}}</h1>
+                        <h3 class="subtitle">{{getBanner(i).subtitle}}</h3>
+                        <a (click)="fnchangeCategory(getBanner(i).id)" mat-raised-button color="primary"
+                            class="mt-2">Shop now</a>
+                    </div>
+                </div>
+            </div> -->
+        </mat-card>
+      </div>
+    </div>
+    <button class="swiper-button-left">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button class="swiper-button-right">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+
+  </div>
+<!-- </div> -->
+</div>

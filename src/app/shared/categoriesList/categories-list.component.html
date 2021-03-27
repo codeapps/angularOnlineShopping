@@ -1,0 +1,6 @@
+<div *ngFor="let category of mainCategories">
+      <button *ngIf="category.id == dTempProdTypeId" mat-menu-item (click)="changeCategory($event,category.id)">
+          <span>{{category?.name}}</span> 
+      </button>
+        
+  </div>

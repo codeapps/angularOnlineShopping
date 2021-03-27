@@ -1,0 +1,5 @@
+$orange-primary: mat-palette($mat-deep-orange, 700, 50, 900);
+$orange-accent: mat-palette($mat-orange, 300, 100, 700);
+$orange-warn: mat-palette($mat-red, 500, A200, 800);
+
+$orange-theme: mat-light-theme($orange-primary, $orange-accent, $orange-warn);

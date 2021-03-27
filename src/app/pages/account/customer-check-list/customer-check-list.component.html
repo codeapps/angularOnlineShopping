@@ -1,0 +1,76 @@
+<section class="containers">
+  <div *ngIf="createFlag">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <button mat-button color="warn" matTooltip="Upload" (click)="createFlag = false">
+        <mat-icon>cloud_upload</mat-icon>
+      </button>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px" class="mat-elevation-z8">
+      <ng-container *ngFor="let item of checkLists">
+        <mat-card style="max-width:400px ;">
+          <mat-card-header>           
+            <!-- <mat-card-title>Order</mat-card-title> -->
+            <mat-card-subtitle>Order No: {{item.OrderMain_Id}}</mat-card-subtitle>
+            <mat-card-subtitle>Order Date: {{fnSplitWhiteSpace(item.OrderMain_Date)}}</mat-card-subtitle>
+          </mat-card-header>
+          <img [src]="item.OrderMainImageLoc" height="200" width="350px" />
+          <mat-card-actions fxLayoutAlign="end end">
+            <span *ngIf="item.OrderMain_Flag == 'Billed'" class="billed-items">Billed</span>
+            <button mat-button color="warn" (click)="fnCancelCheckList(item)"
+              [disabled]="item.OrderMain_Flag == 'Billed'">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+    </div>
+  </div>
+
+
+  <div *ngIf="!createFlag">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <button mat-raised-button color="primary" (click)="createFlag = true">Go Back</button>
+      <button mat-raised-button color="primary" (click)="files.click()">
+        <mat-icon>attachment</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="showWebcam = true">
+        <mat-icon>add_a_photo</mat-icon>
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <input type="file" #files style="display: none;" accept="image/*" name="image" (change)="fileProgress($event)">
+      <div class="main-image" *ngIf="showWebcam">
+        <mat-card>
+          <div class="image-webcam">
+            <webcam [height]="200" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+              *ngIf="showWebcam" [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+              [videoOptions]="videoOptions" [imageQuality]="1" (cameraSwitched)="cameraWasSwitched($event)"
+              (initError)="handleInitError($event)"></webcam>
+          </div>
+          <mat-card-actions fxLayoutAlign="end end">
+            <button mat-button color="warn" (click)="triggerSnapshot()">
+              <mat-icon>camera_enhance</mat-icon>
+            </button>
+            <button mat-button color="warn" (click)="showWebcam = false">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div *ngIf="previewUrl">
+        <mat-card>
+          <div class="image-preview mb-3">
+            <img *ngIf="!loadingFlag" [src]="previewUrl" height="200" />
+            <img *ngIf="loadingFlag" class="spinner" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+          </div>
+          <mat-card-actions fxLayoutAlign="end end">
+            <button mat-button color="warn" (click)="previewUrl = null;fileData = null" [disabled]="loadingFlag">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-raised-button color="warn" [disabled]="loadingFlag" (click)="fnUploadFiles()">Upload</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

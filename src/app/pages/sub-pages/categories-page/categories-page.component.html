@@ -1,0 +1,59 @@
+<div fxLayout='column'>
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+        class="filter-row mat-elevation-z1 text-muted">
+
+        <div>
+            <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
+                Show {{count}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+            </a>
+            <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                <span (mouseleave)="countsMenuTrigger.closeMenu()">
+                    <button mat-menu-item *ngFor="let count of counts" (click)="changeCount(count)">
+                        <span>{{count}}</span>
+                    </button>
+                </span>
+            </mat-menu>
+
+
+        </div>
+    </div>
+
+    <div style="min-height: 644px; max-height: max-content;">
+        <div fxLayout="row wrap" class="products-wrapper">
+            <ng-container *ngIf="categories.length">
+                <div *ngFor="let category of categories | paginate: { itemsPerPage: count, currentPage: page }"
+                    fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
+                    <mat-card class="product-item text-center" (click)="fnchangeCategory(category.id)">
+
+                        <div class="image-link"
+                            [ngStyle]="{'background': 'url('+ getImage(category.imgLoc) +')'}">
+                            <!-- <div fxFlex="50"></div>
+                            <div fxFlex="50" fxLayout="column">
+                                <div fxFlex="50" fxLayoutAlign="end center" fxLayout="column">
+                                    <h4>{{product.CategoryHead_Name}}</h4>
+                                </div>
+                                <div fxFlex="50">
+                                    <a mat-raised-button color="primary"
+                                        (click)="fnchangeCategory(product.CategoryHead_Id)" class="mt-2">Shop now</a>
+                                </div>
+                            </div> -->
+                        </div>
+                    </mat-card>
+
+                </div>
+            </ng-container>
+        </div>
+    </div>
+
+
+
+    <div *ngIf="categories.length > 0" fxLayout="row wrap">
+        <div fxFlex="100">
+            <mat-card class="p-0 text-center">
+                <pagination-controls class="product-pagination" autoHide="true" maxSize="5"
+                    (pageChange)="onPageChanged($event)"></pagination-controls>
+            </mat-card>
+        </div>
+    </div>
+</div>

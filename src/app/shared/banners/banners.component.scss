@@ -1,0 +1,214 @@
+.swiper-header {
+  padding: 10px;
+}
+
+.swiper-button-left {
+  position: absolute;
+  top: 45%;
+  z-index: 10;
+  left: 0;
+  background: #fff;
+  width: 40px;
+  height: 50px;
+  vertical-align: middle;
+  padding: 7px;
+  line-height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 0px 5px 5px 0px;
+  cursor: pointer;
+}
+
+.swiper-button-right {
+  position: absolute;
+  top: 45%;
+  z-index: 10;
+  right: 0;
+  background: #fff;
+  width: 40px;
+  height: 50px;
+  vertical-align: middle;
+  padding: 7px;
+  line-height: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0px 0px 5px;
+  cursor: pointer;
+}
+
+.mat-boxContainer {
+  max-width: 100%;
+  max-height: 300px;
+  padding: 0;
+  margin: 4px;
+  background: white !important;
+  cursor: pointer;
+  overflow: hidden;
+  // background: #feab77 !important;
+  .banner-slide {
+    padding: 0px;
+
+    .banners {
+      margin: 0px;
+      // height: 250px;
+
+      .banner-img {
+        position: relative;
+        margin: 0px;
+        padding: 0;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center;
+        overflow: hidden;
+        transition: 0.15s ease-in;
+        height: 200px;
+        width: 100%;
+        // border: 1px solid #ccc;
+        border-radius: 0px;
+        // box-shadow: 0 0 4px 0px #ffb276;
+        .banner-title {
+          position: absolute;
+          right: 0;
+          width: 170px;
+          height: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+    .info {
+      width: 100%;
+      height: 100%;
+      padding-right: 15px;
+
+      .title {
+        font-size: 25px;
+
+        // color: #fff;
+        &::first-letter {
+          //  text-decoration: underline;
+          border-bottom: 1px solid;
+        }
+      }
+
+      .subtitle {
+        font-size: 14px;
+        color: #333;
+      }
+
+      a {
+        background-color: #e82616;
+      }
+    }
+  }
+
+  // .banner {
+  //     position: relative;
+  //     margin: 2px;
+  //     padding: 0;
+  //     background-repeat: no-repeat;
+  //     background-size: cover;
+  //     background-position: center;
+  //     overflow: hidden;
+  //     transition: 0.15s ease-in;
+
+  //     .info {
+  //         height: 100%;
+  //         width: 100%;
+  //         background: rgba(0, 0, 0, 0.4);
+  //         color: #fff;
+  //         padding: 90px 0;
+  //         transition: 0.15s ease-in;
+
+  //         h1 {
+  //             font-size: 36px;
+  //         }
+
+  //         .title {
+  //             font-weight: 500;
+  //             text-align: center;
+  //         }
+
+  //         .subtitle {
+  //             font-weight: normal;
+  //             font-style: italic;
+  //             text-align: center;
+  //         }
+  //     }
+
+  //     &:hover {
+  //         .info {
+  //             background: rgba(0, 0, 0, 0.7);
+  //         }
+  //     }
+  // }
+}
+
+@media (max-width: 959px) {
+  .banners-container {
+    .banner {
+      .info {
+        padding: 30px 0px;
+
+        h1 {
+          font-size: 24px;
+        }
+
+        h2 {
+          font-size: 16px;
+        }
+
+        h3 {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  .info {
+    padding-right: 0px !important;
+    font-size: smaller;
+
+    .title {
+      font-size: 17px !important;
+    }
+    .subtitle {
+      font-size: 10px !important;
+    }
+  }
+  .swiper-header {
+    h2 {
+      font-size: 18px;
+    }
+    a {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      align-items: center;
+      font-size: 10px;
+    }
+  }
+  .banner-img {
+    height: 150px !important;
+  }
+  .banners {
+    height: 160px !important;
+    a {
+      height: 24px;
+      width: 24px;
+      display: flex;
+      justify-content: space-around;
+      text-align: center;
+      align-items: center;
+      font-size: 10px;
+    }
+  }
+  .swiper-button-left,
+  .swiper-button-right {
+    display: none;
+  }
+}

@@ -1,0 +1,81 @@
+<mat-progress-bar [value]='progress'></mat-progress-bar>
+<div *ngIf="!editable" fxLayout="row wrap" class="row" fxLayoutAlign="center start" fxLayoutGap="10px">
+  <div fxLayout="row" fxFlex="40" fxLayoutAlign="center start" class="row-content" fxLayoutGap="3px"
+    *ngFor="let item of slides">
+    <div class="box-model" [ngStyle]="{'background-image':'url(' + item.images + ')'}">
+      <div class="mat-btn">
+        <button mat-mini-fab color="accent" [routerLink]="['/slider']" routerLinkActive="router-link-active">
+          <mat-icon>
+            fast_rewind
+          </mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" (click)="fnEdit(item.id)">
+          <mat-icon>
+            create
+          </mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="fndelete(item.id)">
+          <mat-icon>
+            delete
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="box-container">
+      <mat-card>
+        <mat-card-header class="header">
+          <mat-card-title>{{item.title}}</mat-card-title>
+          <mat-card-subtitle>{{item.subtitle}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>
+            {{item.Descriptions}}
+          </p>
+        </mat-card-content>       
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="editable" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" class="example-container">
+  <div fxLayout="column" fxFlex="80" fxLayoutAlign="center center" fxLayoutGap="10px" *ngFor="let offer of tempOffer">
+    <div class="box-model-container" >
+      <mat-form-field appearance="fill" class="content-field">
+        <mat-label>Offer Title</mat-label>
+        <input matInput [(ngModel)]="message1">
+      </mat-form-field><br>
+      <mat-form-field appearance="fill" class="content-field">
+        <mat-label>Offer Subtitle</mat-label>
+        <input matInput [(ngModel)]="message2">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="content-field">
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="Descriptions"></textarea>
+      </mat-form-field>
+      <input type="file" accept="image/*" name="image" (change)="fileProgress($event)">
+
+      <div *ngIf="fileUploadProgress">
+        Upload progress: {{ fileUploadProgress }}
+      </div>
+      <div class="image-preview mb-3" *ngIf="previewUrl && !loadingFlag">
+        <img [src]="previewUrl" height="200" />
+      </div>
+      <div *ngIf="loadingFlag">
+        <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+          <div class="loading-container">
+            <img class="spinner" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+          </div>
+        </div>
+      </div> 
+      <div class="mb-3" *ngIf="uploadedFilePath">
+        {{uploadedFilePath}}
+      </div>
+
+    </div>
+    <div fxLayout="row" fxFlex="100" fxLayoutAlign="center center" fxLayoutGap="10px" class="btn-action">
+      <button mat-raised-button color="primary" (click)="fnupdate(offer.UniqueId)" [class.spinner]="saveLoad"
+      [disabled]="saveLoad">Update</button>
+      <button mat-raised-button color="warn" (click)="fnBack()">Back</button>
+    </div>
+  </div>
+</div>

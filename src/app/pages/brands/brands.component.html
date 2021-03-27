@@ -1,0 +1,58 @@
+<section fxLayout='column' fxLayoutGap='10px'>
+<div fxLayout="column" fxLayoutAlign="center stretch">
+    <h3 class="py-1 text-center">We've Got The Brands You're Looking For</h3>
+    <!-- <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="50" class="w-100 brand-search">
+            <input  matInput placeholder="Search For Brands..." [(ngModel)]="searchText">
+        </mat-form-field>
+    </div> -->
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <mat-button-toggle-group #group="matButtonToggleGroup" appearance="legacy" class="letters mt-2">
+            <mat-button-toggle value="all" checked="true" class="letter" >
+                Show All Brands
+            </mat-button-toggle>
+            <mat-button-toggle #btntoggle *ngFor="let letter of letters" [value]="letter" class="letter" >
+                {{letter}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+</div>
+
+<div>
+    <ul>
+        <div *ngFor="let letter of letters">
+            <div class="main-letters" *ngIf="(letter == group.value || group.value == 'all')&& !searchText">
+                <span class="ul-letters">{{letter}}</span>
+            </div>
+            <div fxLayout='row wrap' fxLayoutGap='10px'
+                *ngIf="group.value == 'all' || (letter == group.value || searchText)">
+                <div class="brands-container">
+                    <ul class="brand">
+                        <!-- <li [routerLink]="['/brands', brand.Manufacture_Name,{ID:[brand.Manufacture_Id],BranchId:[brand.BranchId]}]" class="li-items" *ngFor="let brand of brands | filterBrands: letter | brandSearchPipe : searchText | filterBrands: group.value">
+                                <span>{{brand.Manufacture_Name}}</span>
+                            </li> -->
+
+                        <li class="li-items"
+                            *ngFor="let brand of brands | filterBrands: letter | brandSearchPipe : searchText | filterBrands: group.value">
+                            <a mat-button [routerLink]="['/brands', brand.Manufacture_Name, {ID:[brand.Manufacture_Id],BranchId:[sessionWebBranchId]}]">
+                                <span>{{brand.Manufacture_Name}}</span>&nbsp;&nbsp;&nbsp;
+                                <span class="bage-avilable">
+                                   ({{brand.counts}})</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </ul>
+</div>
+
+<div fxLayout='row wrap' class="brands-wrapper">
+  <div class="col" fxFlex='16.66' fxFlex.lt-sm='100'  *ngFor="let brand of brands | brandSearchPipe : searchText | filterBrands: group.value">
+     <a matRipple [routerLink]="['/brands', brand.Manufacture_Name,{ID:[brand.Manufacture_Id],BranchId:[sessionWebBranchId]}]" class="mat-elevation-z4 brand-image" fxLayoutAlign='center center'>
+    <img [src]='brand.Manufacture_CSTNo2' />
+     </a>
+  </div>
+</div>
+<!-- <app-brands-carousel [brands]="brandsLogo" ></app-brands-carousel> -->
+</section>

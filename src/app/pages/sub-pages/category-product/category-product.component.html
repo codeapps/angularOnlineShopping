@@ -1,0 +1,148 @@
+<mat-sidenav-container>
+    <!-- [style.transform]='scrollTranslate' -->
+    <!-- [ngClass]="{'active' : scrollActive}" -->
+    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav"
+    [fixedInViewport]='true' [fixedBottomGap]='45' [fixedTopGap]='100' perfectScrollbar>
+        <mat-accordion displayMode="flat" multi="true" class="filter-sub">
+            <div fxLayout="row" fxLayoutGap="5px" fxFlexAlign="end end">
+
+            </div>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h5 style="font-size: 15px;">Categories</h5>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="categories-wrapper categories-dropdown" perfectScrollbar>
+                    <button mat-menu-item (click)="fnProductsGets(categoryHeadId)">
+                        <span>All</span>
+                    </button>
+                    <div class="cat-div" *ngFor="let category of categoriesLists">
+                        <button mat-menu-item
+                            (click)="fnFilterProducts(category.CategoryID);fnGetManufacturesWithCategoryId(category.CategoryID)">
+                            <span>{{category.CategoryDesc}}</span>
+                        </button>
+
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h5 style="font-size: 15px;">Brands</h5>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                    <mat-form-field class="Serachformfield" appearance="outline">
+                        <mat-label>Serach</mat-label>
+                        <mat-icon matPrefix>search</mat-icon>
+                        <input matInput placeholder="search here.." [(ngModel)]="brandSearch"
+                            autocomplete="off">
+                    </mat-form-field>
+
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-brands" fxLayoutGap="5px">
+
+                    <cdk-virtual-scroll-viewport itemSize="10" class="example-viewport" perfectScrollbar>
+                        <div *cdkVirtualFor="let brand of Manafacture | brandSearchPipe: brandSearch; let i = index" fxLayout="column"
+                            class="example-item">
+                            <mat-checkbox (click)="$event.stopPropagation()" (change)="onChangeBrands(brand)"
+                                [checked]="brandSelection.isSelected(brand)" color="primary">
+                                <span class="text-brand">{{brand.Manufacture_Name}} </span>
+                                <span class="bage-avilable">
+                                    {{getAvilableBrands(brand.Manufacture_Id)}}</span>
+                            </mat-checkbox>
+                            <!-- <mat-checkbox color="primary" (change)="onChangeBrands($event)" [value]="brand">
+                                <span class="text-brand">{{brand.Manufacture_Name}} </span>
+                                <span class="bage-avilable">
+                                    {{getAvilableBrands(brand.Manufacture_Id)}}</span>
+                            </mat-checkbox> -->
+                        </div>
+                    </cdk-virtual-scroll-viewport>
+
+                </div>
+            </mat-expansion-panel>
+
+            <!-- <div class="category-Lists">
+                <div fxLayout="row wrap" fxLayoutAlign="start start">
+                    <span class="badge badge-pill badge-success cursor-pointer"
+                        (click)="fnProductsGets(categoryHeadId)">
+                        <mat-icon>shop</mat-icon>
+                        All
+                    </span>
+                    <ng-container *ngFor="let item of categoriesLists">
+                        <span class="badge badge-pill badge-success cursor-pointer"
+                            (click)="fnFilterProducts(item.CategoryID);fnGetManufacturesWithCategoryId(item.CategoryID)">
+                            <mat-icon>shop</mat-icon>
+                            {{item.CategoryDesc}}
+                        </span>
+                    </ng-container>
+                </div>
+            </div> -->
+
+        </mat-accordion>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+        <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="filter-row mat-elevation-z1 text-muted">
+            <!-- <app-filter class="chip-filter" [selectChip]="selectChips" (onRemoveChip)="fnRemoveChips(selectChips)">
+            </app-filter> -->
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-row mat-elevation-z1 text-muted">
+            <!-- fxLayout.xs="column" -->
+            <button class="side-nav" *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <div class="sortdefault">
+                <a mat-button [matMenuTriggerFor]="sortMenu" #sortMenuTrigger="matMenuTrigger">
+                    {{sort}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                </a>
+                <mat-menu #sortMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                    <span (mouseleave)="sortMenuTrigger.closeMenu()">
+                        <button mat-menu-item *ngFor="let sort of sortings" (click)="changeSorting(sort)">
+                            <span>{{sort}}</span>
+                        </button>
+                    </span>
+                </mat-menu>
+            </div>
+            <div class="view-menu">
+                <!-- <a mat-button [matMenuTriggerFor]="countsMenu" #countsMenuTrigger="matMenuTrigger">
+                    Show {{count}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+                </a>
+                <mat-menu #countsMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+                    <span (mouseleave)="countsMenuTrigger.closeMenu()">
+                        <button mat-menu-item *ngFor="let count of counts" (click)="changeCount(count)">
+                            <span>{{count}}</span>
+                        </button>
+                    </span>
+                </mat-menu> -->
+                <button class="allproducts" (click)="fnAssignProducts()">
+                    All Products
+                </button>
+                <button mat-icon-button (click)="changeViewType('list', 100)">
+                    <mat-icon>view_list</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changeViewType('grid', 33.3)">
+                    <mat-icon>view_module</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changeViewType('grid', 25)">
+                    <mat-icon>view_comfy</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="backdrop" *ngIf="loading"></div>
+        <div *ngIf="loading" style="justify-content: center; align-items: center; height: 500px;display: flex;">
+            <img src="assets/images/others/loader.gif">
+            <!-- <h3>Loading...</h3> -->
+        </div>
+        <div *ngIf="avilableProduct" style="justify-content: center; align-items: center; height: 500px;display: flex;">
+            <img src="assets/images/others/empty.png">
+        </div>
+        <!-- [style.max-height]="viewHeight" -->
+        <app-product-view [pviewType]='viewType' [pviewCol]='viewCol' [ptype]='type'
+    [product]='products'></app-product-view>
+    </mat-sidenav-content>
+</mat-sidenav-container>

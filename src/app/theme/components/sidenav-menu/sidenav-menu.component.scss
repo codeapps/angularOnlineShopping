@@ -1,0 +1,54 @@
+@import "../../styles/mixins";
+
+.menu-expand-icon{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.menu-item{
+    .mat-button{
+        width: 100%;
+        font-weight: 400;
+
+        &.expanded{
+            .menu-expand-icon{
+                -webkit-transform: rotate(180deg);
+                -moz-transform: rotate(180deg);
+                transform: rotate(180deg);
+            }
+        }
+    }
+    .mat-button-wrapper{
+        padding-left: 16px;
+    }
+}
+
+.sub-menu{
+    @include menu-level-padding();
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: max-height 0.25s ease-out;
+    -moz-transition: max-height 0.25s ease-out;
+    transition: max-height 0.25s ease-out;
+    .mat-button{
+        padding-left: 25px;
+        text-align: left;
+        .menu-title{
+          text-transform: lowercase;
+          width: 150px;
+          overflow: hidden;
+          display: block;
+          &::first-letter {
+            text-transform: uppercase;
+          }
+
+      }
+    }
+    &.show{
+        max-height: 500px;
+        -webkit-transition: max-height 0.25s ease-in;
+        -moz-transition: max-height 0.25s ease-in;
+        transition: max-height 0.25s ease-in;
+    }
+}

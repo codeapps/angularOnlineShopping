@@ -1,0 +1,51 @@
+<div fxLayout='column'>
+<div fxLayout='row'
+  fxLayoutAlign='space-between center' class="flow-wish px-1 mat-elevation-z1 text-muted">
+ <h4>Purchase Items </h4>
+ <div fxLayout='row'>
+   <button mat-icon-button (click)="expand = !expand;multiple = !multiple">
+     <mat-icon *ngIf="expand"> view_list</mat-icon>
+     <mat-icon *ngIf="!expand"> view_comfy </mat-icon>
+   </button>
+
+ </div>
+</div>
+
+<mat-accordion [multi]='multiple' displayMode="flat" class="example-headers" *ngIf="tempProducts.length > 0">
+  <ng-container *ngFor="let category of CategoryLists;let i = index">
+
+    <mat-expansion-panel [expanded]='expand'>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{i+1}} -
+          {{category.CategoryDesc}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <mat-card class="mt-1 p-0">
+
+        <div class="mat-table purchased-table">
+
+          <div *ngFor="let product of fnFilterWishLists(category.CategoryID)" class="mat-row">
+            <div class="mat-cell product-image">
+              <img [src]="product.images[0].small">
+            </div>
+            <div class="mat-cell"><a [routerLink]="['/products', product.id, product.name]"
+                class="product-name">{{product.name}}</a></div>
+            <div class="mat-cell">
+              &#8377;{{product.newPrice - (product.newPrice * product.discount) / 100 | number : '1.2-2'}}
+            </div>
+            <div class="mat-cell">{{ (product.availibilityCount > 0) ? 'In stock':'Out of Stock'}}</div>
+            <div class="mat-cell">{{product.discount}} % Off</div>
+            <div class="mat-cell text-muted">
+              <app-controls [product]="product" ></app-controls>
+            </div>
+
+          </div>
+        </div>
+      </mat-card>
+
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>
+</div>

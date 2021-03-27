@@ -1,0 +1,123 @@
+@import '../../../assets/css/themestyles.scss';
+
+.container {
+    padding-top: 40px;
+    background: #fff;
+    margin-bottom: 30px;
+
+    .rdo-group {
+        .mat-radio-button {
+            margin-right: 20px;
+        }
+
+    }
+
+    .tbl-report {
+        width: 100%;
+
+        table {
+            th {
+                background: blueviolet;
+                color: #fff;
+            }
+
+            td {
+                input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    padding: 5px;
+                    // height: 4px;
+                }
+            }
+        }
+    }
+
+    .tbl-reported {
+        margin-top: 3px;
+        width: 100%;
+        height: 300px;
+        overflow: auto;
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+
+            th {
+                text-align: center;
+                font-size: 12px;
+                border-right-width: 0;
+                border-style: solid;
+                border-left-width: 1px;
+                border-color: #ccc;
+                border-top-width: 0;
+                border-bottom-width: 1px;
+                padding: 6px;
+                background: #673ab7;
+                color: #fff;
+                font-weight: 500;
+                z-index: 10;
+                white-space: nowrap;
+            }
+
+            td {
+                text-align: center;
+                font-size: 12px;
+                border-right-width: 0;
+                border-style: solid;
+                border-left-width: 1px;
+                border-color: #ccc;
+                border-top-width: 0;
+                border-bottom-width: 1px;
+                padding: 0;
+                overflow: hidden;
+                white-space: nowrap;
+                z-index: 10;
+
+                input {
+                    width: 100%;
+                    border: none;
+                    outline: none;
+                    padding: 5px;
+                    // height: 4px;
+                }
+
+                input:focus {
+                       background-color: #3ab1b754;
+                }
+
+            }
+
+        }
+
+    }
+}
+
+.tbl-no {
+    width: 20px;
+}
+
+.tbl-code {
+    width: 100px;
+}
+
+.tbl-name {
+    width: 450px;
+}
+
+.tbl-cat {
+    width: 150px;
+}
+
+.tbl-comp {
+    width: 150px;
+}
+
+.tbl-stock {
+    width: 60px;
+}
+
+.tbl-dis {
+    width: 60px;
+}

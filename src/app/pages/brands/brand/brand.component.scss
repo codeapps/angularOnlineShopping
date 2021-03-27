@@ -1,0 +1,188 @@
+// @import '../../../assets/css/themestyles.scss';
+
+::ng-deep .mat-expansion-panel-header {
+  height: 30px !important;
+}
+
+// .active {
+//     position: absolute !important;
+//     bottom: 0 !important;
+//     // top: 0 !important;
+// }
+::ng-deep button {
+  outline: none !important;
+}
+
+.filter-sidenav {
+
+  top: auto;
+  bottom: auto;
+  // transition: 0.5s;
+  margin-top: 10px;
+  width: 280px;
+  border: 0 !important;
+
+  // height: 300px;
+  .filter-sub {
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    max-width: 290px;
+  }
+
+  .mat-expansion-panel-header-title {
+    text-transform: uppercase;
+  }
+}
+
+.filter-row {
+  background: #fff;
+  margin-top: 10px;
+
+}
+
+.all-products {
+  // min-height: 400px;
+  padding: 2px;
+  overflow: hidden;
+
+  &.p-left {
+    padding-left: 16px;
+  }
+}
+
+
+
+.categories-wrapper {
+  position: relative;
+  max-height: 300px;
+}
+
+.filter-buttons {
+  button {
+    min-width: 36px;
+    margin: 0 6px 10px 0;
+    padding: 0;
+  }
+}
+
+.filter-price {
+  .mat-slider-horizontal {
+    min-width: 110px;
+  }
+}
+
+
+.ddprice {
+  width: 100%;
+
+  .ddpricefrom-form {
+    max-width: 43%;
+  }
+
+  .ddpriceto-form {
+    max-width: 43%;
+  }
+}
+
+
+.filter-brands {
+  width: 110%;
+  display: contents;
+
+  // height: 300px;
+  // overflow: auto;
+  .example-viewport {
+    height: 400px;
+    width: 100%;
+  }
+.example-scroller{
+  height: 100% !important;
+  max-height: 300px !important;
+  width: 100%;
+  min-height: 30px !important;
+}
+
+  button {
+    width: 66px;
+    height: 44px;
+    min-width: 66px;
+    margin: 0 6px 10px 0;
+    padding: 0px;
+    overflow: hidden;
+
+    img {
+      width: 66px;
+      height: 44px;
+    }
+  }
+
+}
+
+.image-div {
+  height: 150px;
+  display: flex;
+
+  img {
+    height: 100%;
+  }
+}
+.specification-band {
+  height: 28px;
+  overflow: hidden;
+  .text-brand {
+    width: 175px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .badge-avilable {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    height: 16px;
+    width: 16px;
+    padding: 2px;
+    line-height: 16px;
+    border-radius: 50%;
+    color: #01030af2;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+  }
+}
+
+
+::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.allproducts {
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.backdrop {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: #e0dcdc8a;
+  z-index: 10;
+}
+
+@media only screen and (max-width: 600px) {
+  .filter-row {
+    display: flex;
+    align-items: flex-start !important;
+
+
+  }
+}
+
+.breadcrumb-item:before{
+  display: inline-block;
+  padding-right: .5rem;
+  padding-left: .5rem;
+  content: "»";
+}

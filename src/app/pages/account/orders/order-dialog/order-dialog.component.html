@@ -1,0 +1,197 @@
+<div class="close-btn-outer">
+  <button mat-mini-fab color="warn" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<div class="print-btn-outer">
+  <button mat-mini-fab color='primary' (click)="print()">
+    <mat-icon>print</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content></div>
+
+
+<div class="page">
+  <div class="invoice-billbox" id='contentToConvert'>
+    <div class="header">
+      <h4>Tax Invoice</h4>
+    </div>
+
+    <div class="header-details">
+
+      <div class="detail-div">
+        <span><b>Sold By:</b>
+          <span style="margin-left: 15px;"><b>{{branchname}}</b></span>
+        </span>
+        <span><b>Ship-from Address:</b>
+          <span style="font-size: 11px;font-style: italic;margin-left: 15px;">{{Branchaddress}}</span>
+        </span>
+        <span></span><span></span>
+        <span><b>GSTIN</b></span><span></span>
+      </div>
+
+      <div class="invoice-number" style="white-space: nowrap;">
+        <span style="font-weight: 800;">Invoice Number #</span>
+        <span style="font-weight: 600;">12451561568114</span>
+
+      </div>
+
+    </div>
+
+    <div class="header-userdetails">
+      <div class="inner-details" style="white-space: nowrap;">
+        <div><span><b>Order Id:</b>&nbsp;</span><span *ngIf="orders">&nbsp;<b>{{orders[0].OrderMain_Id}}</b></span>
+        </div>
+        <div><span><b>Order Date:</b>&nbsp;</span><span
+            *ngIf="orders">&nbsp;{{fnSplitWhiteSpace(orders[0].OrderMain_Date | date:'dd/MM/yyy')}}</span></div>
+        <div><span><b>Invoice Date:</b>&nbsp;</span><span
+            *ngIf="orders">&nbsp;{{fnSplitWhiteSpace(orders[0].OrderMain_Date | date:'dd/MM/yyy')}}</span></div>
+        <div><span><b>PAN:</b>&nbsp;</span><span>&nbsp;</span></div>
+        <div><span><b>CIN:</b>&nbsp;</span><span>&nbsp;</span></div>
+      </div>
+      <div class="inner-details">
+        <div><span><b>Bill To</b></span></div>
+        <div><span><b>{{userDetails?.AC_Name}}</b></span></div>
+        <div>
+          <span>{{userDetails?.Addr1}}&nbsp;</span>
+          <span>{{userDetails?.Alias}}</span>&nbsp;
+          <span>{{userDetails?.Email}}</span>
+        </div>
+      </div>
+      <div class="inner-details">
+        <div><span><b>Ship To</b></span></div>
+        <div><span><b>{{userDetails?.AC_Name}}</b></span></div>
+        <div>
+          <span>{{userDetails?.Addr1}}&nbsp;</span>
+          <span>{{userDetails?.Alias}}&nbsp;</span>
+        </div>
+      </div>
+      <div class="inner-details">
+        <div style="font-size: 12px; font-style: italic;">
+          <span>
+            *Keep This invoice and maafacture box for warranty purpose.
+          </span>
+        </div>
+
+      </div>
+    </div>
+    <div><span>Total Items:&nbsp;</span><span>&nbsp;</span><span>{{count}}</span></div>
+    <div class="product-detail">
+      <table>
+        <thead>
+          <tr>
+            <th>&nbsp;Product</th>
+            <th>Qty</th>
+            <th>Rate</th>
+            <th>Gross Value</th>
+            <th>Discount</th>
+            <th>TaxableValue</th>
+            <th>GST</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders; let i= index">
+            <td>&nbsp;{{order.ItemDesc}}</td>
+            <td>{{order.OrderSub_Qty | number:'1.0-0'}}</td>
+            <td>{{order.OrderSub_SelRate | number : '1.2-2'}}</td>
+            <td>{{order.OrderSub_Qty * order.OrderSub_SelRate | number : '1.2-2'}}</td>
+            <td>0</td>
+            <td>0</td>
+            <td>0</td>
+            <td>{{order.OrderSub_Qty * order.OrderSub_SelRate | number : '1.2-2'}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th style="text-align: center;">&nbsp;Total</th>
+            <th>{{getTotalQty() | number}}</th>
+            <th>{{getTotal() | number : '1.2-2'}}</th>
+            <th>{{getGrandTotal() | number : '1.2-2'}}</th>
+            <th>0</th>
+            <th>0</th>
+            <th>0</th>
+            <th>{{getGrandTotal() | number : '1.2-2'}}</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="bottom-signature">
+      <div style="font-size: 17px;"><span style="padding-right: 50px;">Total</span>
+        <span style="margin-right: 10px;"><b>{{getGrandTotal() | number : '1.2-2'}}</b>
+        </span>
+      </div>
+      <div style="font-size: 17px;">
+        <span style="padding-right: 36px;">Service Charges</span>&nbsp;&nbsp;
+        <span style="margin-right: 10px;"><b>{{shippingcharge | number : '1.2-2'}}</b></span>
+      </div>
+
+      <hr style="overflow: visible; padding: 0; border: none; border-top: medium double #333;
+          color: #333; text-align: center; width: 33%; margin-left: 520px;">
+
+      <div style="font-size: 17px;">
+        <span style="padding-right: 39px;"><b>Grand Total</b></span>
+        <span><b>&#8377;&nbsp;{{finaltotal | number : '1.2-2'}}</b></span>
+      </div>
+      <br>
+      <div><span>Branchname pvt</span></div>
+      <div style="height: 50px;"><span></span></div>
+      <div><span>Authorized Signatory</span></div>
+
+    </div>
+
+    <div class="bottom-declaration">
+      <div class="botton-logo">
+        <div class="logo-div">
+          <span>CodeApps</span>&nbsp;
+          <img src="assets/icon/codeapps1.png">
+        </div>
+
+        <div>
+          <div>
+            <span>Thank You!</span>
+          </div>
+          <div>
+            <span>for shopping with us</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <span style="font-size: 12px;">
+          <span><b>Return Policy:&nbsp;</b></span>
+          <span style="font-size: 10px;">At CodeApps we try to deliver perfectly each and every time. But in the
+            off-chance that you need
+            to return the item, please do so which the <b>Original Brand box/price tag, original packing and invoice</b>
+            without which it will be really difficult for us to act on your request. Please help us helping you. Terms
+            and
+            conditions apply.</span>
+        </span>
+
+        <p style="font-size: 10px; font-family: cursive;">
+          The goods sold as are intented for end user consumption and not for re-sale.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="mat-table orders-table">
+   <div class="mat-header-row">
+     <div class="mat-header-cell">No</div>
+     <div class="mat-header-cell">Product Name</div>
+     <div class="mat-header-cell">Date</div>
+     <div class="mat-header-cell">Status</div>
+     <div class="mat-header-cell">Price</div>
+   </div>
+   <div *ngFor="let order of orders; let i= index" class="mat-row">
+     <div class="mat-cell"><span class="order">{{ i + 1}}</span></div>
+     <div class="mat-cell">{{order.ItemDesc}}</div>
+     <div class="mat-cell">{{order.OrderMain_Date | date}}</div>
+     <div class="mat-cell">Delivered</div>
+     <div class="mat-cell"><span>&#8377;{{order.OrderSub_SelRate | number : '1.2-2'}}</span>
+       for <span> {{order.OrderSub_Qty |  number:'1.0-0'}} </span> <b *ngIf="order.OrderSub_Qty == 1"> item </b>
+       <b *ngIf="order.OrderSub_Qty != 1"> items </b></div>
+
+   </div>
+ </div> -->

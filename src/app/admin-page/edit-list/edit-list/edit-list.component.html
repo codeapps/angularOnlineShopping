@@ -1,0 +1,77 @@
+<section class="containers">
+  <div *ngIf="createFlag">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="From Date" (click)="Frompicker.open()" [max]="maxDate" [(ngModel)]='fromDate'
+          [matDatepicker]="Frompicker" (dateChange)="fngetCustomer()">
+        <mat-datepicker-toggle matSuffix [for]="Frompicker"></mat-datepicker-toggle>
+        <mat-datepicker #Frompicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="To Date" (click)="Topicker.open()" [min]="maxDate" [(ngModel)]="toDate"
+          [matDatepicker]="Topicker" (dateChange)="fngetCustomer()">
+        <mat-datepicker-toggle matSuffix [for]="Topicker"></mat-datepicker-toggle>
+        <mat-datepicker #Topicker></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button color="warn" [routerLink]="['/admin']">Home</button>
+    </div>
+    <div>
+      <div style="margin: 10px;" class="tbl-report mat-elevation-z8">
+        <table>
+          <thead>
+            <tr>
+              <th>View</th>
+              <th style="width: 60px;">Sl No</th>
+              <th>Customer Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of CustomerList; let i = index">
+              <td>
+                <button mat-button color="primary" (click)="fnViewClick(item)">
+                  <mat-icon>remove_red_eye</mat-icon>
+                </button>
+              </td>
+              <td>{{i+1}}</td>
+              <td>{{item.AC_Name}}</td>
+              <td>{{item.Phone}}</td>
+              <td>{{item.Email}}</td>
+              <td>{{item.Addr1}}</td>
+              <td>{{item.DescEditFlag}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div *ngIf="!createFlag">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <button mat-raised-button color="primary" (click)="fnBack()">Back</button>
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="5px">
+      <ng-container *ngFor="let item of checkLists">
+        <mat-card>
+          <mat-card-header>
+            <!-- <mat-card-title>Order</mat-card-title> -->
+            <mat-card-subtitle>Order No: {{item.OrderMain_Id}}</mat-card-subtitle>
+            <mat-card-subtitle>Order Date: {{fnSplitWhiteSpace(item.OrderMain_Date)}}</mat-card-subtitle>
+          </mat-card-header>
+          <a [href]="item.OrderMainImageLoc" target="_blank"> <img [src]="item.OrderMainImageLoc" height="200" width="350px" /></a>
+          <mat-card-actions fxLayoutAlign="end end">
+            <span *ngIf="item.OrderMain_Flag == 'Billed'" class="billed-items">Billed</span>
+          </mat-card-actions>
+        </mat-card>
+      </ng-container>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,260 @@
+<section fxLayout='column' class="p-1">
+
+  <div *ngIf="createFlag">
+    <mat-tab-group>
+      <mat-tab label="Assign Brands">
+        <div fxLayoutGap='5px'>
+         <div></div>
+          <div fxLayout="row" fxLayoutAlign="start center" >
+            <!-- <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center" >
+            <button mat-raised-button color="primary" (click)="fnSaveBranches()">Save</button>
+            <button mat-raised-button color="primary" (click)="fnReset()">Reset</button>
+            </div> -->
+
+            <mat-form-field appearance="outline">
+              <mat-label>Search Here..</mat-label>
+              <input matInput (keyup)="applyFilter($event)">
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+            <div class="tbl-report mat-elevation-z8">
+              <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="Manufacture_Id">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <!-- <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"
+                      color="warn" disabled>
+                    </mat-checkbox> -->
+                    Active
+                  </th>
+                  <td mat-cell *matCellDef="let row">
+                    <!-- <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                      [checked]="!isRowValid(row) && selection.isSelected(row)"
+                       [indeterminate]="isRowValid(row) "
+                       [aria-label]="checkboxLabel(row)" color="warn" disabled>
+                    </mat-checkbox> -->
+                    <mat-icon color="primary" *ngIf="isRowValid(row) && selection.isSelected(row)"> done_all</mat-icon>
+                    <mat-icon color="primary" *ngIf="!isRowValid(row) && selection.isSelected(row)"> done</mat-icon>
+                    <mat-icon color="warn" *ngIf="!selection.isSelected(row)"> close</mat-icon>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Manufacture_MFRNo">
+                  <th mat-header-cell *matHeaderCellDef style="width: 60px;">No</th>
+                  <td mat-cell *matCellDef="let row let i=index"> {{i+1}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Manufacture_Name">
+                  <th mat-header-cell *matHeaderCellDef style="width: 86%;">Manufacture Name</th>
+                  <td mat-cell *matCellDef="let row"> {{row.Manufacture_Name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Manufacture_Addr1">
+                  <th mat-header-cell *matHeaderCellDef>View</th>
+                  <td mat-cell *matCellDef="let row">
+                    <button mat-button (click)="fnGetProductWithManufactureId(row)">
+                      <mat-icon>link</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="General Settings">
+        <div class="general-settings" fxLayout="column" fxLayoutGap="10px">
+          <div>
+            <div fxFlex="10.50"></div>
+            <div fxFlex="50">
+              <button mat-flat-button color="primary" (click)="fnUpdateGeneralSettings()">Save</button>
+            </div>
+          </div>
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+            <div fxFlex="10"></div>
+            <div fxFlex="50">
+              <div fxFlex="40">
+                <mat-label class="label">Login Visible</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-radio-group fxLayoutGap="20px" [(ngModel)]="Login">
+                  <mat-radio-button value="Yes" color="warn">Yes</mat-radio-button>
+                  <mat-radio-button value="No" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div fxFlex="40"></div>
+          </div>
+
+          <div fxFlex="100" fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+            <div fxFlex="10"></div>
+            <div fxFlex="50">
+              <div fxFlex="40">
+                <mat-label class="label">SignUp Visible</mat-label>
+              </div>
+              <div fxFlex="60">
+                <mat-radio-group fxLayoutGap="20px" [(ngModel)]="signUp">
+                  <mat-radio-button value="Yes" color="warn">Yes</mat-radio-button>
+                  <mat-radio-button value="No" color="warn">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div fxFlex="40"></div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+
+  <div *ngIf="!createFlag">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+      <button mat-raised-button color="primary" (click)="fnSaveProducts()" [disabled]='saveloading'>
+        <div fxLayout='row' fxLayoutGap='5px' fxLayoutAlign='center center'>
+          <span>Save</span>
+          <mat-spinner strokeWidth='2' *ngIf="saveloading"
+          diameter='25' value='50' color="warn"></mat-spinner>
+        </div>
+      </button>
+      <button mat-raised-button color="warn" (click)="fnReset()">Reset</button>
+      <button mat-raised-button color="primary" (click)="fnBackToManu()">Back</button>
+      <button mat-raised-button color="accent" (click)="openDialog()">Create Group</button>
+      <mat-form-field appearance="outline">
+        <mat-label>Search Here..</mat-label>
+        <input matInput (input)="fnSearchFilterOnProducts($event.target.value)">
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <mat-progress-spinner *ngIf="loadnig"
+        class="example-margin"
+        color="primary"
+        mode="indeterminate"
+        value="10"
+        strokeWidth='2'
+        diameter='60'>
+    </mat-progress-spinner>
+      <div class="tbl-report mat-elevation-z8" *ngIf="!loadnig">
+        <table mat-table [dataSource]="productDataSource">
+          <!-- <ng-container matColumnDef="ItemCode">
+            <th mat-header-cell *matHeaderCellDef style="width: 60px;">Save</th>
+            <td *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation();" (change)="$event ? saveSelection.toggle(row) : null"
+                [checked]="saveSelection.isSelected(row)" color='warn'></mat-checkbox>
+            </td>
+          </ng-container> -->
+
+          <ng-container matColumnDef="ProductId">
+            <th mat-header-cell *matHeaderCellDef style="padding-left: 14px;">
+              <span class="th-span">Product Visible</span>
+              <mat-checkbox (change)="$event ? promasterToggle() : null"
+                [checked]="productselection.hasValue() && proisAllSelected()"
+                [indeterminate]="productselection.hasValue() && !proisAllSelected()"
+                color="primary">
+
+              </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? productselection.toggle(row) : null"
+                [checked]="productselection.isSelected(row)"  color="primary">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="bOnline">
+            <th mat-header-cell *matHeaderCellDef style="padding-left: 14px;">
+
+              <mat-checkbox (change)="$event ? ProOnlinemasterToggle() : null"
+                [checked]="OnlineSelection.hasValue() && ProOnlineisAllSelected()"
+                [indeterminate]="OnlineSelection.hasValue() && !ProOnlineisAllSelected()"
+                color="primary" [disabled]="proisAllSelected() ? false : true">
+              </mat-checkbox>
+              &nbsp;Pro Vis Online
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+              (change)="$event ? OnlineSelection.toggle(row) : null"
+                [checked]="OnlineSelection.isSelected(row) && productselection.isSelected(row)"
+                [disabled]="productselection.isSelected(row) ? false : true"
+                 color="primary">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="SkuCode">
+            <th mat-header-cell *matHeaderCellDef style="width: 60px;">No</th>
+            <td mat-cell *matCellDef="let row let i=index"> {{i+1}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ItemDesc">
+            <th mat-header-cell *matHeaderCellDef style="width: 30%;">Product Name</th>
+            <td mat-cell *matCellDef="let row"> {{row.ItemDesc}} </td>
+          </ng-container>
+          <ng-container matColumnDef="CategoryDesc">
+            <th mat-header-cell *matHeaderCellDef>Category Name</th>
+            <td mat-cell *matCellDef="let row"> {{row.CategoryDesc}} </td>
+          </ng-container>
+          <ng-container matColumnDef="CategoryHead_Name">
+            <th mat-header-cell *matHeaderCellDef>CategoryHead Name</th>
+            <td mat-cell *matCellDef="let row"> {{row.CategoryHead_Name}} </td>
+          </ng-container>
+          <ng-container matColumnDef="BalanceQty">
+            <th mat-header-cell *matHeaderCellDef>Qty</th>
+            <td mat-cell *matCellDef="let row"> {{row.BalanceQty}} </td>
+          </ng-container>
+
+
+          <!-- <ng-container matColumnDef="ProductGrpId">
+            <th mat-header-cell *matHeaderCellDef>Product Groups</th>
+            <td *matCellDef="let row">
+              <select class="tblUnit" [(ngModel)]="row.ProductGrpId" (change)="saveSelection.select(row)">
+                <option value="0">--Select--</option>
+                <ng-container *ngFor="let ProdGroup of JsonProdGroup;">
+                  <option *ngIf="ProdGroup.Manufacture_Id == row.Manufacture_Id" [value]="ProdGroup.ProductGroupId">
+                    {{ProdGroup.CategoryHead_Name}}
+                  </option>
+                </ng-container>
+              </select>
+            </td>
+          </ng-container> -->
+
+          <!-- <ng-container matColumnDef="ProdWgtTypeId">
+            <th mat-header-cell *matHeaderCellDef>Product Weight</th>
+            <td *matCellDef="let row">
+              <select class="tblUnit" [(ngModel)]="row.ProdWgtTypeId" (change)="saveSelection.select(row)">
+                <option value="0">--Select--</option>
+                <ng-container *ngFor="let ProdWgt of JsonProdWgt;">
+                  <option [value]="ProdWgt.CategoryHead_Id">
+                    {{ProdWgt.CategoryHead_Name}}
+                  </option>
+                </ng-container>
+              </select>
+            </td>
+          </ng-container> -->
+
+          <!-- <ng-container matColumnDef="CategoryCode">
+            <th mat-header-cell *matHeaderCellDef style="padding-left: 14px;">
+
+              <mat-checkbox (change)="$event ? StockmasterToggle() : null"
+                [checked]="Stockselection.hasValue() && StockisAllSelected()"
+                [indeterminate]="Stockselection.hasValue() && !StockisAllSelected()"
+                color="warn" [disabled]="proisAllSelected() ? false : true">
+              </mat-checkbox>
+              &nbsp;Cart Visible
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? Stockselection.toggle(row) : null"
+                [checked]="Stockselection.isSelected(row) && productselection.isSelected(row)"  matTooltip="Stock"
+                color="warn" [disabled]="productselection.isSelected(row)?false:true">
+              </mat-checkbox>
+            </td>
+          </ng-container> -->
+
+          <tr mat-header-row *matHeaderRowDef="proColumnToDisplay;sticky:true"></tr>
+          <tr mat-row *matRowDef="let row; columns: proColumnToDisplay"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>

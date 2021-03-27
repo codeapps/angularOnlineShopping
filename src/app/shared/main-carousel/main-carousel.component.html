@@ -1,0 +1,28 @@
+<div class="main-slider" >
+  <div class="swiper-container h-100" [swiper]="config">
+    <div class="swiper-wrapper h-100">
+      <div *ngFor="let slide of slides" class="swiper-slide">
+        <!-- <div [attr.data-background]="slide.images" class="slide-item swiper-lazy"> -->
+          <div [ngStyle]="getBgImage(slide.images)" class="slide-item">
+          <!-- <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div> -->
+          <!-- <div class="mask"></div> -->
+          <div fxLayout="column" fxLayoutAlign="end center" class="content">
+            <h1>{{slide.title}}</h1>
+            <h3>{{slide.subtitle}}</h3>
+            <p>{{slide.Descriptions}}</p>
+            <!-- <button mat-raised-button color="primary">Shop now</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination white"></div>
+    <button mat-mini-fab color="primary" class="swiper-button-prev swipe-arrow">
+      <!-- <mat-icon>keyboard_arrow_left</mat-icon> -->
+      <fa name="chevron-left" ></fa>
+    </button>
+    <button mat-mini-fab color="primary" class="swiper-button-next swipe-arrow">
+      <!-- <mat-icon>keyboard_arrow_right</mat-icon> -->
+      <fa name="chevron-right" ></fa>
+    </button>
+  </div>
+</div>

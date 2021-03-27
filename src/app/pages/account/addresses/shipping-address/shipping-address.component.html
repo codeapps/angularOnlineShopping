@@ -1,0 +1,148 @@
+<div class="p-2 mt-1">
+  <form [formGroup]="shippingForm" (ngSubmit)="onShippingFormSubmit(shippingForm.value)">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" required>
+          <mat-error *ngIf="shippingForm.controls['firstName'].errors?.required">First name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" required>
+          <mat-error *ngIf="shippingForm.controls['lastName'].errors?.required">Last name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Middle Name/Initial</mat-label>
+          <input matInput formControlName="middleName">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Company</mat-label>
+          <input matInput formControlName="company">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required autocomplete="off">
+          <mat-error *ngIf="shippingForm.controls['email'].errors?.required">Email is required
+          </mat-error>
+          <mat-error *ngIf="shippingForm.controls['email'].hasError('invalidEmail')">Invalid email
+            address</mat-error>
+
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Phone</mat-label>
+          <input matInput type="number" formControlName="phone" required minlength="10" maxlength="10"
+            autocomplete="off">
+          <mat-error *ngIf="shippingForm.controls['phone'].errors?.required">Phone is required
+          </mat-error>
+          <mat-error *ngIf="shippingForm.controls['phone'].hasError('minlength')">Phone should be 10
+            numeric</mat-error>
+          <mat-error *ngIf="shippingForm.controls['phone'].hasError('maxlength')">Phone should be 10
+            numeric</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Country</mat-label>
+          <mat-select formControlName="country" required>
+            <mat-option *ngFor="let country of countries" [value]="country">
+              {{country.name}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="shippingForm.controls['country'].errors?.required">Country is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" required>
+          <mat-error *ngIf="shippingForm.controls['city'].errors?.required">City is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>State/Province</mat-label>
+          <input matInput formControlName="state">
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Zip/Postal Code</mat-label>
+          <input matInput type="number" min="6" max="6" formControlName="zip" minlength="6" required>
+          <mat-error *ngIf="shippingForm.controls['zip'].errors?.required">Pincode is required
+          </mat-error>
+          <mat-error *ngIf="shippingForm.controls['zip'].hasError('minlength')">Pincode should be
+            6 numeric</mat-error>
+          <mat-error *ngIf="shippingForm.controls['zip'].hasError('maxlength')">Pincode should be
+            6 numeric</mat-error>
+          <mat-error *ngIf="shippingForm.controls['zip'].errors?.required">Zip/Postal Code is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" fxFlex.lt-sm='100' class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Address (street, apartment, suite, unit etc.)</mat-label>
+          <input matInput formControlName="address1" required>
+          <mat-error *ngIf="shippingForm.controls['address1'].errors?.required">Address is required</mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div fxFlex="50" fxFlex.lt-sm='100' class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Road name, Area, Colony</mat-label>
+          <input matInput formControlName="address2" required>
+          <mat-error *ngIf="shippingForm.controls['address2'].errors?.required">Address is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50" fxFlex.lt-sm='100' class="px-1">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>+ Add Nearby Famous Shop/Mall/Landmark</mat-label>
+          <input matInput formControlName="address3" >
+          <mat-error *ngIf="shippingForm.controls['address3'].errors?.required">Address is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="25" fxFlex.lt-sm='100' class="px-1">
+        <mat-label>Type of Address</mat-label>
+        <mat-chip-list [selectable]='true' formControlName='deliveryPoint'>
+          <mat-chip value='home' (click)="onAddressType('home')">Home</mat-chip>
+          <mat-chip value='work' (click)="onAddressType('work')">Work</mat-chip>
+        </mat-chip-list>
+      </div>
+
+      <div fxFlex="25" fxFlex.lt-sm='100' class="px-1" *ngIf="shippingForm.get('deliveryPoint').value == 'work'">
+        <mat-form-field class="w-100" appearance='outline'>
+          <mat-label>Delivery Time Period</mat-label>
+         <mat-select formControlName="deliveryTime">
+           <mat-option value='time1'>8.00 - 4.00</mat-option>
+           <mat-option value='time2'>9.00 - 5.00</mat-option>
+           <mat-option value='time3'>10.00 - 6.00</mat-option>
+         </mat-select>
+
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="text-center mt-2" fxLayoutGap='10px'>
+        <button mat-raised-button color="primary" type="submit" [disabled]='loading'>
+          <span fxLayoutAlign='start center' >
+            Save&nbsp;
+            <mat-spinner diameter='20' color="warn" *ngIf="loading"></mat-spinner>
+          </span>
+        </button>
+
+
+      </div>
+    </div>
+  </form>
+</div>

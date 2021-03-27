@@ -1,0 +1,150 @@
+
+
+
+
+  <div fxFlexFill *ngIf="!products.length" fxLayout='row' fxLayoutAlign='center center'>
+      <p style="color: #c70000;">Product Not Avilable !!!</p>
+  </div>
+  <!-- [style.max-height]="viewHeight" -->
+  <div *ngIf="viewType == 'grid'" >
+    <div fxLayout="row wrap" class="products-wrapper">
+      <ng-container *ngIf="products">
+        <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page }; let i = index"
+          fxFlex="100" [fxFlex.gt-sm]="viewCol" fxFlex.sm="50" class="col">
+          <mat-card class="product-item text-center">
+            <mat-chip-list *ngIf="product?.discount > 0">
+              <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
+            </mat-chip-list>
+            <a [routerLink]="['/products', product.id, product.name]" class="image-link">
+              <img [attr.src]="product.images[0].medium"
+                onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'" alt="">
+            </a>
+
+            <div class="product-text">
+              <a [routerLink]="['/products', product.id, product.name]">
+                {{product.name}}
+              </a>
+            </div>
+
+
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+              <div fxLayout="column" fxLayoutAlign="center start">
+                <p class="old-price text-muted" style="margin-bottom: 0px;">
+                  <span style="font-weight: 700;">Mrp:</span>
+                  <span *ngIf="product.oldPrice">
+                    &#8377;{{product.oldPrice | number : '1.2-2'}}
+                  </span>
+                </p>
+                <p fxLayout="row wrap" class="new-price" fxLayoutGap='3px'>
+                  <span [ngClass]="{activePrice: product.discount > 0}">
+                    &#8377;{{product.newPrice | number : '1.2-2'}}
+                  </span> &nbsp;
+                  <span *ngIf="product.discount > 0">
+                    &#8377;{{product.newPrice - (product.newPrice * product.discount) / 100 | number : '1.2-2' }}
+                  </span>
+                </p>
+              </div>
+              <div>
+                <span style="font-weight: 400;">You Saved</span><br>
+                <span *ngIf="product.discount == 0"
+                  style="color: green;font-weight: 800;font-size: 16px;">&#8377;{{product.oldPrice - product.newPrice | number : '1.2-2'}}</span>
+                <span *ngIf="product.discount > 0" style="color: green;font-weight: 800;font-size: 16px;">
+                  &#8377;{{ product.oldPrice - (product.newPrice - (product.newPrice * product.discount) / 100) | number : '1.2-2' }}
+                </span>
+              </div>
+              <app-rating hidden [ratingsCount]="product.ratingsCount" [ratingsValue]="5" [direction]="'column'">
+              </app-rating>
+            </div>
+            <div class="divider"></div>
+            <div class="control-view">
+              <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)">
+              </app-controls>
+            </div>
+          </mat-card>
+
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div *ngIf="viewType == 'list' !loading">
+    <div fxLayout="row wrap" class="products-wrapper" fxLayoutAlign="center center">
+      <ng-container *ngIf="products">
+        <div *ngFor="let product of products | paginate: { itemsPerPage: count, currentPage: page }" fxFlex="100"
+          class="col">
+          <mat-card class="product-item">
+            <div fxLayout="row wrap">
+              <div fxFlex="100" fxLayoutAlign='center center' fxFlex.gt-xs="40" class="p-2">
+                <mat-chip-list *ngIf="product.discount" class="list-view">
+                  <mat-chip color="warn" selected="true">{{product.discount}}% OFF</mat-chip>
+                </mat-chip-list>
+                <a [routerLink]="['/products', product.id, product.name]" class="image-link">
+                  <img [attr.src]="product.images[0].medium"
+                    onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'" alt="">
+                </a>
+              </div>
+
+              <div fxFlex="100" fxFlex.gt-xs="60" class="p-2">
+                <!-- <h4 class="category text-muted">{{ ( appService.Data.categories | filterById : product.categoryId )?.name }}</h4>-->
+                <div *ngFor="let item of appService.Data.CategoryLists">
+                  <h4 *ngIf="product.categoryId==item.CategoryID" class="category text-muted">
+                    {{ item.CategoryDesc }}</h4>
+                </div>
+                <a [routerLink]="['/products', product.id, product.name]" class="title">
+                  {{product.name}}
+                </a>
+                <p class="py-1 text-muted lh">{{product.description}}</p>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="prices lists">
+                  <div fxLayout="column" fxLayoutAlign="center start">
+                    <p class="old-price text-muted" style="margin-bottom: 0px;">
+                      <span style="font-weight: 700;">Mrp:</span>
+                      <span>
+                        &#8377;{{product.oldPrice | number : '1.2-2'}}
+                      </span>
+                    </p>
+                    <p fxLayout="row wrap" class="new-price" fxLayoutGap='3px'>
+                      <span [ngClass]="{activePrice: product.discount > 0}">
+                        &#8377;{{product.newPrice | number : '1.2-2'}}
+                      </span>
+                      <span *ngIf="product.discount > 0">
+                        &#8377;{{product.newPrice - (product.newPrice * product.discount) / 100 | number : '1.2-2' }}
+                      </span>
+                    </p>
+                  </div>
+                  <div>
+                    <span style="font-weight: 400;">You Saved</span><br>
+                    <span *ngIf="product.discount == 0"
+                      style="color: green;font-weight: 800;font-size: 16px;">&#8377;{{product.oldPrice - product.newPrice | number : '1.2-2'}}</span>
+                    <span *ngIf="product.discount > 0" style="color: green;font-weight: 800;font-size: 16px;">
+                      &#8377;{{ product.oldPrice - (product.newPrice - (product.newPrice * product.discount) / 100) | number : '1.2-2' }}
+                    </span>
+                  </div>
+                  <app-rating [ratingsCount]="product.ratingsCount" [ratingsValue]="product.ratingsValue"
+                    [direction]="'column'" hidden></app-rating>
+                </div>
+                <div class="divider"></div>
+                <div class="control-view">
+                  <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)"></app-controls>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div *ngIf="type" fxLayout="row wrap">
+    <div fxFlex="100" fxLayoutAlign='center start'>
+      <button mat-button color='primary' (click)="showMore()">show more</button>
+    </div>
+  </div>
+
+  <div *ngIf="products.length > 0 && !type" fxLayout="row wrap">
+    <div fxFlex="100">
+      <mat-card class="p-0 text-center">
+        <pagination-controls class="product-pagination" autoHide="true" maxSize="10"
+          (pageChange)="onPageChanged($event)"></pagination-controls>
+      </mat-card>
+    </div>
+  </div>

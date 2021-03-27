@@ -1,0 +1,223 @@
+<section class="containers">
+  <mat-tab-group>
+    <mat-tab label="Image Uploading">
+
+     <div fxLayout="row" fxFlex="100" fxLayoutAlign="start start" fxLayoutGap="10px" class="mat-body">
+        <div fxFlex="33.33">
+          <mat-card >
+            <mat-card-header>
+              <mat-card-title>Slider</mat-card-title>
+              <mat-card-subtitle>Uploading For Slider</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="mat-btn">
+              <button mat-raised-button color="primary" [routerLink]="['/slider']"
+                routerLinkActive="router-link-active">Create</button>
+              <!-- <button mat-raised-button color="warn" (click)="removeAllSlider()">Remove All</button> -->
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <div fxFlex="33.33">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Banner</mat-card-title>
+              <mat-card-subtitle>Uploading For Banner</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="mat-btn">
+              <button mat-raised-button color="primary" [routerLink]="['/bannerCreate']"
+                routerLinkActive="router-link-active">Create</button>
+              <!-- <button mat-raised-button color="warn">Remove All</button> -->
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <div fxFlex="33.33">
+          <mat-card >
+            <mat-card-header>
+              <mat-card-title>Products</mat-card-title>
+              <mat-card-subtitle>Uploading For Products</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="mat-btn">
+              <button mat-raised-button color="primary" routerLink="/editProduct">Create</button>
+              <!-- <button mat-raised-button color="warn">Remove All</button> -->
+            </mat-card-actions>
+          </mat-card>
+        </div>
+     </div>
+
+     <div fxLayout="row" fxFlex="100" fxLayoutAlign="start start" fxLayoutGap="10px" class="mat-body">
+      <div fxFlex="33.33">
+        <mat-card >
+          <mat-card-header>
+            <mat-card-title>Brands</mat-card-title>
+            <mat-card-subtitle>Uploading Brands Logo</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="mat-btn">
+            <button mat-raised-button color="primary" routerLink="/editbrands">Create</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div fxFlex="33.33">
+        <mat-card >
+          <mat-card-header>
+            <mat-card-title>Offer Settings</mat-card-title>
+            <mat-card-subtitle>Offer Settings Edits</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="mat-btn">
+            <button mat-raised-button color="primary" routerLink="/offers">Create</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <div fxFlex="33.33">
+        <mat-card >
+          <mat-card-header>
+            <mat-card-title>Customer Check Lists</mat-card-title>
+            <mat-card-subtitle>To View Customer Checklists</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="mat-btn">
+            <button mat-raised-button color="primary" routerLink="/editList">Create</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+   </div>
+
+
+    </mat-tab>
+    <mat-tab label="WebAddress Edit">
+      <div *ngIf="!createFlag" fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="20px">
+        <div fxLayout="row" class="general-settings" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="fnSave()">Save</button>
+          <button mat-raised-button color="primary" (click)="fnBack()">Back</button>
+        </div>
+        <div fxLayout="row" class="general-settings" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <mat-form-field appearance="outline" style="min-width: 30%;">
+            <mat-label>URL</mat-label>
+            <input matInput [(ngModel)]="webUrl">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="min-width: 30%;">
+            <mat-label>Select Branch</mat-label>
+            <mat-select [(ngModel)]="weebBranchId">
+              <mat-option *ngFor="let item of branchList" [value]="item.BranchId">{{item.BranchName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="createFlag" fxLayout="column" fxFlex="100">
+        <div style="margin: 10px;">
+          <button mat-raised-button color="primary" (click)="fnCreate()">Create</button>
+        </div>
+        <div style="margin: 10px;" class="tbl-report mat-elevation-z8">
+          <table>
+            <thead>
+              <tr>
+                <th>Edit</th>
+                <th style="width: 60px;">Remove</th>
+                <th>Web Address</th>
+                <th>Branch</th>
+                <th style="width: 60px;">BranchId</th>
+                <th style="width: 60px;">View</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tab of OrderWebAddressBranchList">
+                <td>
+                  <button mat-button (click)="fnAnchorClick(tab)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+                <td>
+                  <button mat-button (click)="onAlertDialogue(tab)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </td>
+                <td>{{tab.WebAddress}}</td>
+                <td>{{fnFilterBranch(tab.BranchId)}}</td>
+                <td>{{tab.BranchId}}</td>
+                <td>
+                  <button mat-button (click)="fnRouteToBranchFilter(tab)">
+                    <mat-icon>link</mat-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="General Settings">
+      <div fxLayout="column" fxLayoutGap="10px" class="p-1">
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="fnSaveGeneralSetting()">Save</button>
+        </div>
+        <div fxLayout="row">
+            <mat-card class="details">
+              <mat-card-header>
+                <mat-card-title>Select Color</mat-card-title>
+              </mat-card-header>
+              <button mat-raised-button (click)="changeColor('blue')" class="blue">
+                <mat-icon *ngIf="appSettings.settings.theme == 'blue'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'blue'">&nbsp;</span>
+              </button>
+              <button mat-raised-button (click)="changeColor('green')" class="green">
+                <mat-icon *ngIf="appSettings.settings.theme == 'green'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'green'">&nbsp;</span>
+              </button>
+              <button mat-raised-button (click)="changeColor('red')" class="red">
+                <mat-icon *ngIf="appSettings.settings.theme == 'red'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'red'">&nbsp;</span>
+              </button>
+              <button mat-raised-button (click)="changeColor('pink')" class="pink">
+                <mat-icon *ngIf="appSettings.settings.theme == 'pink'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'pink'">&nbsp;</span>
+              </button>
+              <button mat-raised-button (click)="changeColor('purple')" class="purple">
+                <mat-icon *ngIf="appSettings.settings.theme == 'purple'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'purple'">&nbsp;</span>
+              </button>
+              <button mat-raised-button (click)="changeColor('grey')" class="grey">
+                <mat-icon *ngIf="appSettings.settings.theme == 'grey'">done</mat-icon>
+                <span *ngIf="appSettings.settings.theme != 'grey'">&nbsp;</span>
+              </button>
+
+            </mat-card>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <mat-form-field appearance="outline" fxFlex='30'>
+            <mat-label>Select WebAddress Allowed</mat-label>
+            <mat-select [(ngModel)]="OrderBasedOnPincode">
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex='30'>
+            <mat-label>Otp SMS Allowed</mat-label>
+            <mat-select [(ngModel)]="otpSmsAllowed">
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" fxFlex='30'>
+            <mat-label>Control view Allowed</mat-label>
+            <mat-select [(ngModel)]="controlAllowed">
+              <mat-option value="Yes">Yes</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+          <mat-form-field appearance="outline" fxFlex='30'>
+            <mat-label>Payment Maximum Price</mat-label>
+           <input matInput [(ngModel)]="ShoppingPaymentMaxPrice">
+          </mat-form-field>
+          <mat-form-field appearance="outline" fxFlex='30'>
+            <mat-label>Service Charges</mat-label>
+           <input matInput [(ngModel)]="ShoppingServiceCharge">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</section>

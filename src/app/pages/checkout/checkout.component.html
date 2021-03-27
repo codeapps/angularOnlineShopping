@@ -1,0 +1,455 @@
+<mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2" fxShow="false" fxShow.gt-sm
+  (selectionChange)="selectionChange($event)" >
+  <mat-step [stepControl]="shippingAddrForm" label="Shipping address" state="account_circle">
+    <form [formGroup]="shippingAddrForm" class="p-2">
+      <mat-radio-group formControlName="shippingAddrMethod" color="warn" fxLayout='column' fxLayoutGap='15px' required>
+        <mat-card *ngFor="let item of shippingArray;let i = index">
+          <mat-radio-button [value]='item' >
+            <div fxLayout='row' fxLayoutAlign='space-between center'>
+              <mat-label>{{item.firstName}} {{item.middleName}}</mat-label>
+              &nbsp;<span class="types">{{item.addressType}}</span>
+              <button *ngIf="shippingAddrForm.get('shippingAddrMethod').value == item" mat-button
+              color="primary" class="p-a-r" (click)="onAddOrEditAddress(i)">Edit Or Add Address</button>
+            </div>
+          </mat-radio-button>
+          <p class="m-l-28">
+            {{item.address1}}
+            &nbsp;{{item.address2}}
+          </p>
+          <p class="m-l-28">
+            {{item.address3}}
+            &nbsp;{{item.city}}</p>
+          <p class="m-l-28">
+            {{item.state}}
+            &nbsp;-&nbsp;{{item.pincode}}
+
+          </p>
+          <p class="m-l-28">{{item.phone}}</p>
+        </mat-card>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-raised-button matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          Next
+        </button>
+      </div>
+    </form>
+
+
+  </mat-step>
+
+  <mat-step [stepControl]="deliveryForm" label="Delivery method" state="local_shipping">
+    <form [formGroup]="deliveryForm" class="p-2">
+      <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
+        name="methods">
+        <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
+          <b>{{method.name}}</b> {{method.desc}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-raised-button matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          Prev
+        </button>
+        <button mat-raised-button matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          Next
+        </button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]='paymentForm' label="Payment method" state="account_balance">
+    <form [formGroup]="paymentForm" fxLayout="column">
+      <mat-radio-group formControlName='radioValue' fxLayout="column" fxLayoutAlign="center" name="methods">
+        <mat-radio-button color="primary" value='COD' class="mt-1"><b>COD</b>(Cash On Delivery)
+        </mat-radio-button>
+        <mat-radio-button color="primary" value='Online' class="mt-1"><b>Credit/Debit Card</b>(Online Payment)
+        </mat-radio-button>
+      </mat-radio-group>
+
+
+      <div *ngIf="paymentForm.get('radioValue').value == 'Online'" fxLayout='row' class="mt-2">
+        <app-payments [userDetail]='shippingAddrForm.value' [total]='grandTotal'></app-payments>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-raised-button matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          Prev
+        </button>
+        <button mat-raised-button matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+         Next
+        </button>
+      </div>
+    </form>
+
+
+  </mat-step>
+
+  <mat-step [completed]="confirmorder" label="Review Order" state="shopping_basket">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted">Shopping Cart</h3>
+        <div class="divider"></div>
+        <div class="mat-table review-order-table">
+          <div class="mat-header-row">
+            <div class="mat-header-cell">Product Image</div>
+            <div class="mat-header-cell">Product Name</div>
+            <div class="mat-header-cell">Mrp</div>
+            <div class="mat-header-cell">Unit Price</div>
+            <div class="mat-header-cell">Discount</div>
+            <div class="mat-header-cell">Quantity</div>
+            <div class="mat-header-cell">Total</div>
+          </div>
+          <div *ngFor="let product of appService.Data.cartList" class="mat-row">
+            <div class="mat-cell"><img [src]="product.images[0].small"></div>
+            <div class="mat-cell">{{product.name}}&nbsp;</div>
+            <div class="mat-cell">&nbsp;&#8377;{{product.oldPrice | number : '1.2-2'}}</div>
+            <div class="mat-cell">
+              &#8377;{{product.newPrice - (product.newPrice * product.discount) / 100 | number : '1.2-2'}}</div>
+            <div class="mat-cell text-muted">{{product.discount}}&nbsp;%</div>
+            <div class="mat-cell text-muted"><b>{{product.cartCount}}</b></div>
+            <div class="mat-cell">
+              <!-- - (product.newPrice * product.discount) / 100) -->
+              &#8377;<b>{{product.cartCount *(product.newPrice - (product.newPrice * product.discount) / 100) | number :
+                '1.2-2'}}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row" fxFlex="100" style="height: 28px;">
+      <div fxLayout="column" fxFlex="69"></div>
+      <div fxLayout="column" fxFlex="20">
+        <div fxLayout="row" fxLayoutAlign="Start center" style="margin-left: 12px;" fxLayoutGap="10px">
+          <div class="divider"></div>
+          <p class="py-1" style="font-size: 16px;">
+            <span class="text-muted mr-1">Service Charges :</span>
+            <span style="font-weight: bolder;" *ngIf="servicecharges !=0">&#8377;&nbsp;{{servicecharges | number :
+              '1.2-2'}}</span>
+            <span style="font-weight: bolder;color: #388e3c;" *ngIf="servicecharges ==0">FREE</span>
+          </p>
+        </div>
+
+        <div fxLayout="row" fxLayoutAlign="Start center" style="margin-left: 12px;" fxLayoutGap="10px">
+          <div class="divider"></div>
+          <h2 class="py-1" style="font-size: 16px;">
+            <span class="text-muted mr-1"> Total Price :</span>
+            <span style="font-weight: bolder;margin-left: 40px;">&#8377;&nbsp;{{grandTotal | number : '1.2-2'}}</span>
+          </h2>
+        </div>
+      </div>
+      <div fxLayout="column" fxFlex="11" *ngIf="paymentForm.get('radioValue').value =='COD'">
+        <button mat-raised-button color="primary" style="margin-top: 15px;" (click)="placeOrder()" [disabled]='loading'>
+          <div fxLayout='row' fxLayoutGap='5px' fxLayoutAlign='center center'>
+            <span *ngIf="!loading">Place order now</span>
+            <mat-spinner *ngIf="loading" diameter='30' color="warn"></mat-spinner>
+          </div>
+        </button>
+
+      </div>
+
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Delivery information</h3>
+        <div class="divider"></div>
+        <p class="py-1">{{deliveryForm.controls['deliveryMethod'].value['name']}} <span
+            class="text-muted">{{deliveryForm.controls['deliveryMethod'].value['desc']}}</span></p>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Shipping Address</h3>
+        <div class="divider"></div>
+        <p class="py-1">
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.firstName}}
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.middleName}}&nbsp;
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.ShippingDetails_LastName}}&nbsp;
+          </p>
+          <p>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address1}}&nbsp;</span>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address2}}&nbsp;</span>
+          </p>
+          <p>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address3}}&nbsp;</span>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.city}}&nbsp;</span>
+          </p>
+          <p >
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.state}}&nbsp;</span>
+            <span class="text-muted">-{{shippingAddrForm.controls['shippingAddrMethod'].value.pincode}}&nbsp;</span>
+          </p>
+          <p class="py-1"><span>{{shippingAddrForm.controls['shippingAddrMethod'].value.phone}}&nbsp;</span></p>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Payment information</h3>
+        <div class="divider"></div>
+        <p class="py-1" *ngIf="paymentForm.value.radioValue == 'COD'"><span
+            class="text-muted mr-1">COD:</span><span>Cash On
+            Delivery</span></p>
+        <p class="py-1" *ngIf="paymentForm.value.radioValue == 'Online'"><span class="text-muted mr-1">Card
+            number:</span><span>XXX-XXX-XXX-7224</span></p>
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+      <!-- <h2><span class="text-muted mr-1">Total Price:</span><span> &#8377;&nbsp;{{grandTotal | number : '1.2-2'}}</span>
+      </h2> -->
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <button mat-raised-button matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+        class="mr-1">
+        Prev
+      </button>
+
+
+    </div>
+  </mat-step>
+
+  <mat-step label="Confirmation" state="thumb_up_alt">
+    <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
+      <button mat-fab color="primary">
+        <mat-icon>check</mat-icon>
+      </button>
+      <h2 class="py-2">Congratulation! Your order has been processed</h2>
+      <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus dolor ante, ut luctus mi
+        faucibus a. Ut eu tincidunt neque. Proin porttitor id ligula id placerat. Integer nec nulla varius, dapibus
+        libero quis, semper eros. Aliquam erat volutpat. Proin volutpat tellus vel purus interdum euismod.</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <a [routerLink]="['/']" mat-raised-button color="primary">Return to Shop</a>
+    </div>
+
+  </mat-step>
+</mat-horizontal-stepper>
+
+<mat-vertical-stepper #verticalStepper linear="true" class="mat-elevation-z2" fxHide="false" fxHide.gt-sm
+  (selectionChange)="selectionChange($event)" >
+  <mat-step [stepControl]="shippingAddrForm" label="Shipping address" state="account_circle">
+    <form [formGroup]="shippingAddrForm" class="p-2">
+      <mat-radio-group formControlName="shippingAddrMethod" color="warn" fxLayout='column' fxLayoutGap='15px' required>
+        <mat-card *ngFor="let item of shippingArray;let i = index">
+          <mat-radio-button [value]='item' class="w-100">
+            <div fxLayout='row' fxLayoutAlign='space-between center'>
+              <mat-label>{{item.firstName}} {{item.middleName}}</mat-label>
+              &nbsp;<span class="types">{{item.addressType}}</span>
+
+            </div>
+          </mat-radio-button>
+          <p class="m-l-28">
+            {{item.address1}}
+            &nbsp;{{item.address2}}
+          </p>
+          <p class="m-l-28">
+            {{item.address3}}
+            &nbsp;{{item.city}}</p>
+          <p class="m-l-28">
+            {{item.state}}
+            &nbsp;-&nbsp;{{item.pincode}}
+
+          </p>
+          <p class="m-l-28">phone: &nbsp;{{item.phone}}</p>
+          <button mat-raised-button *ngIf="shippingAddrForm.get('shippingAddrMethod').value == item"
+          color="primary" (click)="onAddOrEditAddress(i)" class="w-100">Edit Or Add Address</button>
+        </mat-card>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="deliveryForm" label="Delivery method" state="local_shipping">
+    <form [formGroup]="deliveryForm" class="p-2">
+      <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
+        name="methods">
+        <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
+          <b>{{method.name}}</b> {{method.desc}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>expand_less</mat-icon>
+        </button>
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paymentForm" label="Payment method" state="account_balance">
+    <form [formGroup]="paymentForm">
+      <mat-radio-group fxLayout="column" fxLayoutAlign="center" formControlName='radioValue' required>
+        <mat-radio-button color="primary" value='COD' class="mt-1">
+          <b>COD</b>(Cash On Delivery)
+        </mat-radio-button>
+        <mat-radio-button color="primary" value='Online' class="mt-1">
+          <b>Credit/Debit Card</b>(Online Payment)
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div *ngIf="paymentForm.get('radioValue').value == 'Online'" fxLayout='row' class="mt-2">
+        <div fxFlex='20'>
+          <app-payments [userDetail]='shippingAddrForm.value' [total]='grandTotal'></app-payments>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>expand_less</mat-icon>
+        </button>
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [completed]="confirmorder" label="Review Order" state="shopping_basket">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted">Shopping Cart</h3>
+        <div class="divider"></div>
+        <div class="mat-table review-order-table">
+          <div class="mat-header-row">
+            <div class="mat-header-cell">Product</div>
+            <div class="mat-header-cell">Name</div>
+            <div class="mat-header-cell">Unit Price</div>
+            <div class="mat-header-cell">Discount</div>
+            <div class="mat-header-cell">Quantity</div>
+            <div class="mat-header-cell">Total</div>
+          </div>
+          <div *ngFor="let product of appService.Data.cartList" class="mat-row">
+            <div class="mat-cell"><img [src]="product.images[0].small"></div>
+            <div class="mat-cell">{{product.name}}&nbsp;</div>
+            <div class="mat-cell">&nbsp;&#8377;{{product.newPrice | number : '1.2-2'}}</div>
+            <div class="mat-cell text-muted">{{product.discount}}</div>
+            <div class="mat-cell text-muted">{{product.cartCount}}</div>
+            <div class="mat-cell">
+              &#8377;{{((product.newPrice - (product.newPrice * product.discount) / 100)*product.cartCount) | number :
+              '1.2-2'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row wrap">
+      <div fxFlex="100">
+        <div fxFlex="30"></div>
+        <div fxFlex="70">
+          <div fxLayout="row" fxLayoutAlign="Start center" style="margin-left: 12px;" fxLayoutGap="10px">
+            <div class="divider"></div>
+            <p class="py-1" style="font-size: 16px;">
+              <span class="text-muted mr-1">Service Charges :</span>
+              <span style="font-weight: bolder;" *ngIf="servicecharges !=0">&#8377;&nbsp;{{servicecharges}}</span>
+              <span style="font-weight: bolder;color: #388e3c;" *ngIf="servicecharges ==0">FREE</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Delivery information</h3>
+        <div class="divider"></div>
+        <p class="py-1">{{deliveryForm.controls['deliveryMethod'].value['name']}} <span
+            class="text-muted">{{deliveryForm.controls['deliveryMethod'].value['desc']}}</span></p>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Shipping Address</h3>
+        <div class="divider"></div>
+        <p class="py-1">
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.firstName}}
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.middleName}}&nbsp;
+          {{shippingAddrForm.controls['shippingAddrMethod'].value.ShippingDetails_LastName}}&nbsp;
+          </p>
+          <p>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address1}}&nbsp;</span>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address2}}&nbsp;</span>
+          </p>
+          <p>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.address3}}&nbsp;</span>
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.city}}&nbsp;</span>
+          </p>
+          <p >
+            <span class="text-muted">{{shippingAddrForm.controls['shippingAddrMethod'].value.state}}&nbsp;</span>
+            <span class="text-muted">-{{shippingAddrForm.controls['shippingAddrMethod'].value.pincode}}&nbsp;</span>
+          </p>
+          <p class="py-1"><span>{{shippingAddrForm.controls['shippingAddrMethod'].value.phone}}&nbsp;</span></p>
+      </div>
+    </div>
+
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Payment information</h3>
+        <div class="divider"></div>
+        <p class="py-1" *ngIf="paymentForm.value.radioValue == 'COD'"><span
+            class="text-muted mr-1">COD:</span><span>Cash On
+            Delivery</span></p>
+        <p class="py-1" *ngIf="paymentForm.value.radioValue == 'Online'"><span class="text-muted mr-1">Card
+            number:</span><span>XXX-XXX-XXX-7224</span></p>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+      <h2><span class="text-muted mr-1">Total Price:</span><span>&#8377;{{grandTotal | number : '1.2-2'}}</span></h2>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+        class="mr-1">
+        <mat-icon>expand_less</mat-icon>
+      </button>
+      <button mat-raised-button matStepperNext color="primary" *ngIf="paymentForm.get('radioValue').value =='COD'"
+        (click)="placeOrder()" [disabled]='loading'>
+        <div fxLayout='row' fxLayoutGap='5px' fxLayoutAlign='center center'>
+          <span *ngIf="!loading">Place order now</span>
+          <mat-spinner *ngIf="loading" diameter='30' color="warn"></mat-spinner>
+        </div>
+      </button>
+    </div>
+  </mat-step>
+  <mat-step label="Confirmation" state="thumb_up_alt">
+    <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
+      <button mat-fab color="primary">
+        <mat-icon>check</mat-icon>
+      </button>
+      <h2 class="py-2">Thanks for your order!</h2>
+      <p class="text-muted lh">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus dolor ante, ut luctus
+        mi faucibus a. Ut eu tincidunt neque. Proin porttitor id ligula id placerat. Integer nec nulla varius, dapibus
+        libero quis, semper eros. Aliquam erat volutpat. Proin volutpat tellus vel purus interdum euismod.</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <a [routerLink]="['/']" mat-raised-button color="primary">Return to Shop</a>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>
+
+<!-- custom model for confirmation -->
+<div class="MyModel" fxLayoutAlign='center center' *ngIf="confirmationModel">
+  <mat-card class="modal-card">
+    <mat-card-header>
+      <mat-card-title>Delivery</mat-card-title>
+      <mat-card-subtitle>Are you sure you want to Place Order..!?</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Dear Customer if you have purchased below&nbsp;<b>Rs&nbsp;{{maxChargeforService}}</b>&nbsp;
+        then the service charges&nbsp;
+        <strong>Rs&nbsp;{{servicecharges}}</strong>&nbsp;should be applicable.
+      </p>
+    </mat-card-content>
+    <mat-card-actions fxLayoutAlign='end center'>
+      <a mat-button color='primary' (click)="fncheck()">Ok</a>
+      <a mat-button color='warn' [routerLink]="['/']">Return to shop</a>
+    </mat-card-actions>
+  </mat-card>
+
+
+</div>

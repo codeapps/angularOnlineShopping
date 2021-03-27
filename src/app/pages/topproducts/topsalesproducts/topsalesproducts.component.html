@@ -1,0 +1,36 @@
+<div fxLayout="column" *ngIf="products.length>0">
+    <div fxLayout="row" fxLayoutAlign='space-between center' class="swiper-header">
+        <h2>Top Sales Products
+            <p style="font-size: 14px; color: #555; padding: 0; margin: 0;">Top Offers</p>
+        </h2>
+        <a mat-flat-button color='primary' [routerLink]="['/topsales']">View All</a>
+    </div>
+    <div fxLayout="row" fxFlex="100" class="header-content">
+        <div [swiper]="config" class="swiper-container">
+
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let product of products;let i=index">
+                    <a class="image-link" fxLayoutAlign='center center' >
+
+                        <img [attr.data-src]="product.images[0].medium" class="swiper-lazy"
+                            onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'"
+                            alt="">
+                            <!-- <div class="title-bottom">{{product.name}}</div> -->
+                            <div class="swiper-lazy-preloader swiper-lazy-preloader-dark"></div>
+                    </a>
+                    <!-- <div class="title" data-swiper-parallax="-100">{{product.name}}</div> -->
+                    <!-- <div class="subtitle" data-swiper-parallax="-200">{{product.name}}</div> -->
+                </div>
+            </div>
+
+
+            <!-- <button class="swiper-button-left">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+              </button>
+              <button class="swiper-button-right">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+              </button> -->
+        </div>
+    </div>
+
+</div>

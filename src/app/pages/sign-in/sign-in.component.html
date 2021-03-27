@@ -1,0 +1,190 @@
+<mat-card >
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-1">
+            <h3 class="text-muted text-center">Sign In</h3>
+            <form [formGroup]="loginForm" class="mat-elevation-z2 p-1" style="background-color: white;">
+                <!-- <mat-form-field class="w-100 mt-2">
+                    <input matInput placeholder="Email" formControlName="email" required>
+                    <mat-error *ngIf="loginForm.controls.email.errors?.required">Email is required</mat-error>
+                    <mat-error *ngIf="loginForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+                </mat-form-field> -->
+                <mat-form-field class="w-100 mt-1" appearance='outline'>
+                  <mat-label>User Name</mat-label>
+                    <input matInput id="txtuserName"  formControlName="userid" required (keyup.enter)='pwd.focus()' autocomplete="off">
+                    <mat-error *ngIf="loginForm.controls['userid'].errors?.required">userid is required</mat-error>
+                    <mat-error *ngIf="loginForm.controls['userid'].hasError('minlength')">userid isn't long enough,
+                        minimum of 3 characters</mat-error>
+                    <!-- <mat-error *ngIf="loginForm.controls['userid'].hasError('maxlength')">userid isn't long enough, maximum of 10 characters</mat-error> -->
+                </mat-form-field>
+                <mat-form-field class="w-100 mt-1" appearance='outline'>
+                  <mat-label>password</mat-label>
+                    <input matInput #pwd placeholder="******" formControlName="password" type="password" required autocomplete="off">
+                    <mat-error *ngIf="loginForm.controls['password'].errors?.required">Password is required</mat-error>
+                    <mat-error *ngIf="loginForm.controls['password'].hasError('minlength')">Password isn't long enough,
+                        minimum of 5 characters</mat-error>
+                    <mat-error *ngIf="loginForm.controls['password'].hasError('maxlength')">Password isn't long enough,
+                        maximum of 10 characters</mat-error>
+                </mat-form-field>
+                <div class="text-center mt-1" fxLayoutGap="10px">
+                    <button *ngIf="loginFlag == 'Yes'" mat-raised-button color="primary" class="mat-elevation-z6"
+                        (click)="onLoginFormSubmit(loginForm.value)">
+                        <mat-icon>exit_to_app</mat-icon>Login
+                    </button>
+                    <!-- <a  (click)="forgotPassword()">Forgot Password</a> -->
+                    <button mat-button (click)="forgotPassword()">Forgot Password</button>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-2">
+                    <div class="divider w-100"></div>
+                    <h3 class="text-muted auth">or Sign in with one click</h3>
+                    <div class="divider w-100"></div>
+                </div>
+
+                <div class="text-center py-1">
+                    <svg class="social-icon" viewBox="0 0 24 24" matTooltip="Facebook">
+                        <path
+                            d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M18,5H15.5A3.5,3.5 0 0,0 12,8.5V11H10V14H12V21H15V14H18V11H15V9A1,1 0 0,1 16,8H18V5Z" />
+                    </svg>
+                    <svg class="social-icon" viewBox="0 0 24 24" matTooltip="Twitter">
+                        <path
+                            d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M17.71,9.33C18.19,8.93 18.75,8.45 19,7.92C18.59,8.13 18.1,8.26 17.56,8.33C18.06,7.97 18.47,7.5 18.68,6.86C18.16,7.14 17.63,7.38 16.97,7.5C15.42,5.63 11.71,7.15 12.37,9.95C9.76,9.79 8.17,8.61 6.85,7.16C6.1,8.38 6.75,10.23 7.64,10.74C7.18,10.71 6.83,10.57 6.5,10.41C6.54,11.95 7.39,12.69 8.58,13.09C8.22,13.16 7.82,13.18 7.44,13.12C7.81,14.19 8.58,14.86 9.9,15C9,15.76 7.34,16.29 6,16.08C7.15,16.81 8.46,17.39 10.28,17.31C14.69,17.11 17.64,13.95 17.71,9.33Z" />
+                    </svg>
+                    <svg class="social-icon" viewBox="0 0 24 24" matTooltip="Google">
+                        <path
+                            d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M19.5,12H18V10.5H17V12H15.5V13H17V14.5H18V13H19.5V12M9.65,11.36V12.9H12.22C12.09,13.54 11.45,14.83 9.65,14.83C8.11,14.83 6.89,13.54 6.89,12C6.89,10.46 8.11,9.17 9.65,9.17C10.55,9.17 11.13,9.56 11.45,9.88L12.67,8.72C11.9,7.95 10.87,7.5 9.65,7.5C7.14,7.5 5.15,9.5 5.15,12C5.15,14.5 7.14,16.5 9.65,16.5C12.22,16.5 13.96,14.7 13.96,12.13C13.96,11.81 13.96,11.61 13.89,11.36H9.65Z" />
+                    </svg>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="otpFlag" fxLayout="row" fxFlex.gt-sm="50" class="p-1" ngClass.sm="mt-2" ngClass.xs="mt-2"
+            fxLayoutAlign="center center" fxLayoutGap="10px">
+            <div fxLayout="column" fxFlex="80" fxLayoutAlign="center center" fxLayoutGap="10px">
+                <ng-otp-input *ngIf="true" (onInputChange)="onOtpChange($event)"
+                    [config]="{length:4,allowNumbersOnly:true}">
+                </ng-otp-input>
+                <p>Please dont't Refresh this page.!</p>
+            </div>
+        </div>
+        <div *ngIf="!otpFlag" fxFlex="100" fxFlex.gt-sm="50" class="p-1" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <h3 class="text-muted text-center">Don't have an account? Sign up now!</h3>
+            <mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2">
+                <mat-step  label="Step 1">
+                    <form [formGroup]="registerForm">
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                            <mat-label>User Name</mat-label>
+                            <input matInput  formControlName="name" required autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['name'].errors?.required">User Name is required
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.controls['name'].hasError('minlength')">User Name isn't long
+                                enough, minimum of 3 characters</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email" required autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['email'].errors?.required">Email is required
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.controls['email'].hasError('invalidEmail')">Invalid email
+                                address</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                          <mat-label>Password</mat-label>
+                            <input matInput formControlName="password" type="password" required autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['password'].errors?.required">Password is required
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.controls['password'].hasError('minlength')">Password isn't
+                                long enough, minimum of 6 characters</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                          <mat-label>confirm Password</mat-label>
+                            <input matInput formControlName="confirmPassword"
+                                type="password" required autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['confirmPassword'].errors?.required">Confirm
+                                Password is required</mat-error>
+                            <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('mismatchedPasswords')">
+                                Passwords do not match</mat-error>
+                        </mat-form-field>
+
+                        <!-- <div class="text-center mt-2">
+                    <button mat-fab color="primary" class="mat-elevation-z6" (click)="onRegisterFormSubmit(registerForm.value)">
+                        <mat-icon>person_add</mat-icon>
+                    </button>
+                </div> -->
+                        <div fxLayout="row" fxLayoutAlign="center center" class="mt-1 p-1">
+                            <button mat-mini-fab matStepperNext color="primary" matTooltip="Next"
+                                matTooltipPosition="after">
+                                <mat-icon>navigate_next</mat-icon>
+                            </button>
+                        </div>
+                    </form>
+                </mat-step>
+                <mat-step label="Step 2">
+                    <form [formGroup]="registerForm">
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                            <mat-label>Address 1</mat-label>
+                            <input matInput placeholder="Line 1" formControlName="address1" required autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['address1'].errors?.required">Address is required
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                              <mat-label>Address 2</mat-label>
+                            <input matInput placeholder="Line 2" formControlName="address2" autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                          <mat-label>Phone</mat-label>
+                            <input matInput type="number" formControlName="Phone" required
+                                minlength="10" maxlength="10" autocomplete="off">
+                            <mat-error *ngIf="registerForm.controls['Phone'].errors?.required">Phone is required
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.controls['Phone'].hasError('minlength')">Phone should be 10
+                                numeric</mat-error>
+                            <mat-error *ngIf="registerForm.controls['Phone'].hasError('maxlength')">Phone should be 10
+                                numeric</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-100 mt-1" appearance='outline'>
+                          <mat-label>Pincode</mat-label>
+                            <input matInput type="number" min="6" max="6" [matAutocomplete]="auto"
+                                formControlName="Pincode" minlength="6" required>
+                            <mat-error *ngIf="registerForm.controls['Pincode'].errors?.required">Pincode is required
+                            </mat-error>
+                            <mat-error *ngIf="registerForm.controls['Pincode'].hasError('minlength')">Pincode should be
+                                6 numeric</mat-error>
+                            <mat-error *ngIf="registerForm.controls['Pincode'].hasError('maxlength')">Pincode should be
+                                6 numeric</mat-error>
+
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let state of filteredStates | async" [value]="state.MapPinCode"
+                                    (click)="fnchangePin(state.MapBranchId)">
+                                    <span>{{state.MapPinCode}}</span> |
+                                    <small>{{state.Area_Name}} - {{state.MapDistrict}} | {{state.MapState}}</small>
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button matSuffix mat-icon-button (click)="openDialog(); $event.stopPropagation();">
+                              <mat-icon color="primary">recent_actors</mat-icon>
+                          </button>
+                        </mat-form-field>
+
+
+                        <!-- <mat-form-field class="w-100 mt-1">
+                        <input matInput placeholder="Pincode" formControlName="Pincode" minlength="6"  required>
+                        <mat-error *ngIf="registerForm.controls.Pincode.errors?.required">Pincode is required</mat-error>
+                        <mat-error *ngIf="registerForm.controls.Pincode.hasError('minlength')">Pincode should be 6 numeric</mat-error>
+                        <mat-error *ngIf="registerForm.controls.Pincode.hasError('maxlength')">Pincode should be 6 numeric</mat-error>
+                    </mat-form-field>  -->
+
+                        <div fxLayout="row" fxLayoutAlign="center center" class="mt-1 p-1">
+                            <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back"
+                                matTooltipPosition="before" class="mr-1">
+                                <mat-icon>navigate_before</mat-icon>
+                            </button>
+                            <button *ngIf="this.signupFlag == 'Yes'" mat-raised-button color="primary"
+                                (click)="onRegisterFormSubmit(registerForm.value)">
+                                <mat-icon>person_add</mat-icon>Save
+                            </button>
+                        </div>
+                    </form>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </div>
+    </div>
+</mat-card>

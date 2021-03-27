@@ -1,0 +1,57 @@
+<div fxLayout="row" fxLayout.xs="row" [fxLayoutAlign]="align" class="text-muted">
+    <!-- optonal -->
+    <div *ngIf="product?.availibilityCount == 0 && (type=='all' || type=='wish')">
+        <span *ngIf="type!='wish'" class="fw-500">Quantity:</span>
+        <span> {{count}} </span>
+    </div>
+    <!-- optonal end -->
+    <ng-container *ngIf="cartControl">
+    <div fxLayoutAlign='center center' *ngIf="product?.availibilityCount > 0 && (type=='all' || type=='wish')" class="cart-view">
+      <!-- <span *ngIf="type!='wish'" class="fw-500">Quantity:</span>  -->
+      <button mat-raised-button class="btn-cart" matTooltip="Remove" color="primary" (click)="decrement(product)">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <span class="text-qty"> {{count}} </span>
+      <button mat-raised-button class="btn-cart" matTooltip="Add" color="primary" (click)="increment(product)">
+        <mat-icon>add</mat-icon>
+      </button>
+  </div>
+
+</ng-container >
+
+  <div *ngIf="!cartControl" fxLayoutAlign='space-between center' class="w-100">
+
+
+    <button *ngIf="type!='wish' && !qtyFlag" mat-button matTooltip="Add to cart" color="primary"
+    [disabled]='product?.availibilityCount > 0 ? false: true'
+   (click)="addToCart(product)">Add item</button>
+
+    <div fxLayoutAlign='center center' *ngIf="product?.availibilityCount > 0 && (type=='all' || type=='wish' || qtyFlag)" class="cart-view">
+        <!-- <span *ngIf="type!='wish'" class="fw-500">Quantity:</span>  -->
+        <button mat-raised-button class="btn-cart" matTooltip="Remove" color="primary" (click)="decrement(product)">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <span class="text-qty"> {{count}} </span>
+        <button mat-raised-button class="btn-cart" matTooltip="Add" color="primary"
+         (click)="increment(product)">
+          <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <button *ngIf="type!='wish'" mat-icon-button matTooltip="Add to wishlist"  (click)="addToWishList(product)">
+      <mat-icon [color]='color[product?.id]'>favorite</mat-icon>
+    </button>
+    <!-- <mat-spinner diameter='20' color="warn"></mat-spinner> -->
+  </div>
+
+
+
+    <div *ngIf="type!='wish' && cartControl">
+        <button mat-icon-button matTooltip="Add to wishlist" (click)="addToWishList(product)"><mat-icon [color]='color[product?.id]'>favorite</mat-icon></button>
+        <button  mat-icon-button matTooltip="Add to cart" *ngIf="product?.availibilityCount > 0 && (!qtyFlag || cartControl)" (click)="addToCart(product)"><mat-icon>shopping_cart</mat-icon></button>
+        <button mat-icon-button matTooltip="Add to compare" (click)="addToCompare(product)"><mat-icon>compare</mat-icon></button>
+        <button *ngIf="type!='all'" mat-icon-button matTooltip="Quick view" (click)="openProductDialog(product)"><mat-icon>remove_red_eye</mat-icon></button>
+    </div>
+</div>
+<div *ngIf="product?.availibilityCount == 0 && type=='all'" class="bg-warn p-1 mt-2">
+    Sorry, this item is unavailable. Please choose a different one.
+</div>

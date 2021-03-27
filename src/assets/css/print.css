@@ -1,0 +1,107 @@
+.page {
+  overflow: auto;
+  height: 80vh;
+
+}
+
+.invoice-billbox {
+  border: 1px solid #ccc;
+  width: 21.0cm;
+  height: 29.7cm;
+  position: relative;
+  display: block;
+
+
+}
+
+.header {
+  text-align: center;
+}
+
+.header-details {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+
+
+}
+.header-details .detail-div {
+  display: grid;
+  width: 70%;
+}
+
+.header-details .invoice-number {
+  border-style: dotted;
+  height: 28px;
+  width: 30%;
+  border-width: 1px;
+  border-radius: 8px;
+  text-align: center;
+
+}
+
+.header-userdetails {
+  display: flex;
+  justify-content: space-between;
+
+}
+.inner-details {
+  padding: 5px;
+  width: 25%;
+  word-break: break-word;
+}
+.product-detail table {
+  width: 100%;
+  border-collapse: collapse;
+
+}
+.product-detail table  th {
+  color: #000;
+  text-align: left;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+}
+
+.product-detail table  td {
+  color: #000;
+}
+
+.bottom-signature {
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  text-align: right;
+  margin-right: 25px;
+  margin-top: 15px;
+  max-height: 200px
+}
+
+.bottom-declaration {
+  position: absolute;
+  bottom: 10px;
+  padding: 5px;
+
+
+}
+
+.botton-logo {
+  display: grid;
+  padding: 5px;
+  justify-self: flex-end;
+  text-align: right;
+
+
+}
+.logo-div {
+  height: 30px;
+  overflow: hidden;
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+
+
+}
+
+.logo-div img {
+  height: 100%;
+}

@@ -1,0 +1,68 @@
+
+::ng-deep .mega-menu-pane {
+   top: 95px !important;
+
+}
+.overlay-mega-menu {
+   position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.mega-menu{
+   position: fixed;
+    width: 90%;
+    left: 5%;
+    right: 5%;
+    top: 96px;
+    z-index: 100;
+    background: white;
+    box-shadow: 0 0 2px black;
+    a {
+      text-transform: lowercase;
+      &::first-letter {
+      text-transform: uppercase;
+    }
+    }
+}
+a {
+   color: #555 !important;
+   font-weight: bold;
+}
+.hide{
+   display: none !important;
+}
+.mat-menu-panel {
+   max-height: 300px !important;
+   overflow: hidden;
+
+}
+
+.top-navbar {
+   height: 40px;
+  .nav-anchor {
+    min-width: 70px;
+    border-radius: 0;
+    padding: 3px 10px;
+    text-transform: lowercase;
+    &::first-letter {
+      text-transform: uppercase;
+    }
+
+   }
+}
+
+.options-lang{
+   font-size: small;
+   mat-form-field{
+      width: 60%;
+   mat-label,mat-option{
+      font-size: initial;
+      height: 45px;
+   }
+}
+}
+.head{
+   font-size: 15px;
+}

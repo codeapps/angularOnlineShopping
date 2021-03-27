@@ -1,0 +1,194 @@
+<section class="container">
+  <mat-tab-group>
+    <mat-tab label="Discount">
+      <div *ngIf="!createFlag" fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="fnBack()">BackToList</button>
+          <button mat-raised-button color="primary" (click)="fnSave()">Save</button>
+          <mat-radio-group class="rdo-group" [(ngModel)]="filterItems" (change)="fnRadioChange()">
+            <mat-radio-button color="warn" value="Product">Product</mat-radio-button>
+            <mat-radio-button color="warn" value="Company">Company</mat-radio-button>
+            <mat-radio-button color="warn" value="Category">Category</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="From Date" (click)="Frompicker.open()" [min]="MaxDate" [(ngModel)]='FromDate'
+              [matDatepicker]="Frompicker">
+            <mat-datepicker-toggle matSuffix [for]="Frompicker"></mat-datepicker-toggle>
+            <mat-datepicker #Frompicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <input matInput placeholder="To Date" (click)="Topicker.open()" [min]="MaxDate" [(ngModel)]="ToDate"
+              [matDatepicker]="Topicker">
+            <mat-datepicker-toggle matSuffix [for]="Topicker"></mat-datepicker-toggle>
+            <mat-datepicker #Topicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput [(ngModel)]="description">
+          </mat-form-field>
+          <div>
+
+            <div fxLayout="column">
+              <mat-form-field *ngIf="filterItems == 'Company'" appearance="outline" fxFlex="100">
+                <mat-label>Select Company</mat-label>
+                <input matInput autocomplete="off" [(ngModel)]="companyName"
+                  (input)='filterOnCompany($event.target.value)'>
+              </mat-form-field>
+              <app-scodeautocomplete *ngIf="selectComFlag && filterItems == 'Company'" [fillterData]='filteredCompany'
+                [columnHeader]='colComheader' [thHeader]='compHeader' (valueChange)='fnCompanyChange($event)'>
+              </app-scodeautocomplete>
+              <mat-form-field appearance="outline" *ngIf="filterItems == 'Category'" fxFlex="100">
+                <mat-label>Select Category</mat-label>
+                <input matInput autocomplete="off" [(ngModel)]="categoryName"
+                  (input)='filterOnCategory($event.target.value)'>
+              </mat-form-field>
+              <app-scodeautocomplete *ngIf="selectCatFlag && filterItems == 'Category'" [fillterData]='filteredCatgory'
+                [columnHeader]='colCatheader' [thHeader]='catHeader' (valueChange)='fnCategoryChange($event)'>
+              </app-scodeautocomplete>
+            </div>
+          </div>
+          <mat-form-field appearance="outline" fxFlex="10">
+            <mat-label>Tot Dis</mat-label>
+            <input matInput (input)="fnAssignedToDisplay($event)">
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="10px">
+          <mat-form-field appearance="outline">
+            <mat-label>Search Here...</mat-label>
+            <input matInput [(ngModel)]="searchProducts" autocomplete="off" (input)="fnSearchProducts()">
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <!-- <div class="tbl-report mat-elevation-z8"> -->
+          <virtual-scroller *ngIf="productLists && productLists.length" class='tbl-reported mat-elevation-z8' #scroll
+            [items]="productLists">
+            <table>
+              <thead #header>
+                <th class="tbl-no">No</th>
+                <th class="tbl-code">Code</th>
+                <th class="tbl-name">Product Name</th>
+                <th class="tbl-cat">Category Name</th>
+                <th class="tbl-comp">Company Name</th>
+                <th class="tbl-stock">Stock</th>
+                <th class="tbl-dis">DisPerc</th>
+              </thead>
+              <tbody #container>
+                <tr *ngFor="let item of scroll.viewPortItems;let i = index">
+                  <td class="tbl-no">{{i+1}}</td>
+                  <td class="tbl-code" style="text-align: left;padding-left: 5px;">{{item.ItemCode}}</td>
+                  <td class="tbl-name" style="text-align: left;padding-left: 5px;">{{item.ItemDesc}}</td>
+                  <td class="tbl-cat" style="text-align: left;padding-left: 5px;">{{item.CategoryDesc}}</td>
+                  <td class="tbl-comp" style="text-align: left;padding-left: 5px;">{{item.Manufacture_Name}}</td>
+                  <td class="tbl-stock">{{item.BalanceQty}}</td>
+                  <td class="tbl-dis"><input [(ngModel)]="item.Offer_DisPers"
+                      (input)="fnChangeIndividualDisperc($event,i)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </virtual-scroller>
+          <div *ngIf="productLists && !productLists.length">
+            No Records Found!!
+          </div>
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <div *ngIf="createFlag" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="fnCreate()">Create</button>
+          <button mat-raised-button color="warn" [routerLink]="['/admin']">Home</button>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+          <div class="tbl-report mat-elevation-z8">
+            <table>
+              <thead>
+                <th>No</th>
+                <th style="width: 30px;">Edit</th>
+                <th style="width: 30px;">Delete</th>
+                <th style="width: 60;">Offer No</th>
+                <th>From Date</th>
+                <th>To Date</th>
+                <th>Description</th>
+                <th>Type</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of offerSettingsList;let i = index">
+                  <td>{{i+1}}</td>
+                  <td><button mat-button (click)="fnAnchorClick(item.OfferNo)">
+                      <mat-icon>
+                        create
+                      </mat-icon>
+                    </button></td>
+                    <td><button mat-button (click)="fnRemovedOffer(item.OfferNo)">
+                      <mat-icon>
+                        delete
+                      </mat-icon>
+                    </button></td>
+                  <td>{{item.OfferNo}}</td>
+                  <td>{{item.FromDate}}</td>
+                  <td>{{item.ToDate}}</td>
+                  <td>{{item.Description}}</td>
+                  <td>{{item.Field1}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Offer Images">
+      <div *ngIf="!listShow" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+        <div class="tbl-report mat-elevation-z8">
+          <table>
+            <thead>
+              <th>Edit</th>
+              <th>Offer Name</th>
+              <th>Offer Images</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of imageLists; let i = index">
+                <td>
+                  <button mat-flat-button (click)="fnAnchorClickforUploads(item,i)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+                <td>Offer{{i+1}}</td>
+                <td>{{item}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="listShow">
+        <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px"
+          style="margin-top: 20px;margin-bottom: 20px;">
+          <button mat-flat-button color="primary" (click)="fnBackToList()">Back To Lists</button>
+          <button mat-flat-button color="warn" (click)="fnUploadsImages()">Upload</button>
+        </div>
+        <div fxLayout="column">
+          <mat-form-field class="content-field">
+            <mat-label>Offer ImageName</mat-label>
+            <input matInput [(ngModel)]="imageNames" readonly>
+          </mat-form-field>
+        </div>
+        <input #myInput type="file" accept="image/*" name="image" (change)="fileProgress($event)">
+        <div class="image-preview mb-3" *ngIf="previewUrl && !loadingFlag">
+          <img [src]="previewUrl" height="200" />
+        </div>
+        <div *ngIf="loadingFlag">
+          <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <div class="loading-container">
+              <img class="spinner" src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </mat-tab>
+  </mat-tab-group>
+</section>

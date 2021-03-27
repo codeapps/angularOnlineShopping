@@ -1,0 +1,95 @@
+<div class="mat-table orders-table">
+ <div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="10px">
+  <mat-form-field>
+    <input matInput placeholder="From Date" (click)="Frompicker.open()" [max]="MaxDate" id="fromdate"
+      [(ngModel)]='fromDate' [matDatepicker]="Frompicker" (ngModelChange)="DateChange()">
+    <mat-datepicker-toggle matSuffix [for]="Frompicker"></mat-datepicker-toggle>
+    <mat-datepicker #Frompicker></mat-datepicker>
+  </mat-form-field>
+  &nbsp;
+  <mat-form-field>
+    <input matInput placeholder="To Date" (click)="Topicker.open()" [max]="MaxDate" id="Todate"
+     [(ngModel)]='toDate' [matDatepicker]="Topicker" (ngModelChange)="DateChange()">
+    <mat-datepicker-toggle matSuffix [for]="Topicker"></mat-datepicker-toggle>
+    <mat-datepicker #Topicker></mat-datepicker>
+  </mat-form-field>
+ </div>
+
+  <div class="mat-header-row">
+    <div class="mat-header-cell">Order Id</div>
+    <div class="mat-header-cell">Order Date</div>
+    <div class="mat-header-cell">Delivery Date</div>
+    <div class="mat-header-cell">Total</div>
+    <div class="mat-header-cell">Total Amt</div>
+    <div class="mat-header-cell">Status</div>
+    <div class="mat-header-cell">View Order</div>
+    <div class="mat-header-cell">Invoice Order</div>
+    <div class="mat-header-cell">Cancel Order</div>
+  </div>
+  <div *ngFor="let order of neworders" class="mat-row" [ngClass]="{'caneled': order.Order_Cancel,'billed':order.OrderMain_Flag =='Billed' }">
+    <div class="mat-cell"><span class="order">{{order.OrderMain_Id}}</span></div>
+    <div class="mat-cell">{{fnDateConvert(order.OrderMain_Date)}}</div>
+    <!-- | date:'dd-MM-yyyy' -->
+    <div class="mat-cell">{{ fnDateConvert(order.OrderMain_DeliverDate)}}</div>
+    <div class="mat-cell">&#8377;{{order.OrderMain_TotTaxAmt | number : '1.2-2'}}</div>
+    <div class="mat-cell">&#8377;{{order.OrderMain_Total | number : '1.2-2'}}</div>
+    <div class="mat-cell">{{order.Order_Cancel ? 'canceled': order.OrderMain_Flag}}</div>
+    <div class="mat-cell">
+      <div class="p-1 actions" *ngIf="order.OrderType !='Image'">
+        <button  mat-mini-fab color="button" matTooltip="View Orderlist"
+          (click)="vieworderlist(order)" class="btn-invoice">
+          <mat-icon>visibility</mat-icon>
+        </button>
+      </div>
+      <div class="p-1 actions" *ngIf="order.OrderType =='Image'">
+        <button  mat-mini-fab color="button" matTooltip="View Orderlist"
+          (click)="fnImageViewer(order)" class="btn-invoice">
+          <mat-icon>assignment</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="mat-cell">
+      <div class="p-1 actions">
+        <button  mat-mini-fab color="warn" matTooltip="View invoice"
+          (click)="openProductDialog(order.OrderMain_Id)" class="btn-invoice">
+          <mat-icon>receipt</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="mat-cell">
+      <div class="p-1 actions">
+        <button mat-mini-fab color="primary" matTooltip="Canel Order"
+        [disabled]="order.OrderMain_Flag =='Billed' || order.Order_Cancel"
+          (click)="onAlertDialogue(order.OrderMain_Id,order.UniqueId)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="mat-table orders-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">Order</div>
+      <div class="mat-header-cell">Date</div>
+      <div class="mat-header-cell">Status</div>
+      <div class="mat-header-cell">Total</div>
+      <div class="mat-header-cell"></div>
+    </div>
+    <div *ngFor="let order of orders" class="mat-row">
+      <div class="mat-cell"><span class="order">{{order.number}}</span></div>
+      <div class="mat-cell">{{order.date}}</div>
+      <div class="mat-cell">{{order.status}}</div>
+      <div class="mat-cell">{{order.total}}</div>
+      <div class="mat-cell">
+        <div class="p-1 actions">
+          <button mat-mini-fab color="primary" matTooltip="View">
+              <mat-icon>remove_red_eye</mat-icon>
+          </button>
+          <button *ngIf="order.invoice" mat-mini-fab color="warn" matTooltip="View invoice" class="btn-invoice">
+              <mat-icon>receipt</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div> -->

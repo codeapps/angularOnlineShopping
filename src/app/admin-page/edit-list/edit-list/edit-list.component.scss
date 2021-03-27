@@ -1,0 +1,29 @@
+@import '../../../../assets/css/themestyles.scss';
+
+.containers {
+  padding: 40px;
+
+  .tbl-report {
+    width: 100%;
+
+    table {
+      th {
+        background: blueviolet;
+        color: #fff
+      }
+    }
+  }
+
+  .mat-card {
+    max-width: 400px;
+    margin-top: 10px;
+    .billed-items {
+      position: inherit;
+      z-index: 9;
+      display: flex;
+      font-size: x-large;
+      font-weight: 900;
+      color: green;
+  }
+  }
+}

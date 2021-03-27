@@ -1,0 +1,59 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="account-sidenav"
+        perfectScrollbar>
+        <mat-nav-list class="mat-elevation-z1 h-100">
+            <mat-list-item>
+                <mat-icon matListIcon class="mat-icon-sm">dashboard</mat-icon>
+                <a matLine [routerLink]="['/account/dashboard']" routerLinkActive="horizontal-active-link"
+                    [routerLinkActiveOptions]="{exact:true}">Account Dashboard</a>
+            </mat-list-item>
+            <!-- <mat-list-item>
+                        <mat-icon matListIcon class="mat-icon-sm">info</mat-icon>
+                        <a matLine [routerLink]="['/account/information']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Account Information</a>
+                </mat-list-item>
+                <mat-list-item>
+                        <mat-icon matListIcon class="mat-icon-sm">location_on</mat-icon>
+                        <a matLine [routerLink]="['/account/addresses']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Addresses</a>
+                </mat-list-item> -->
+            <mat-list-item>
+                <mat-icon matListIcon class="mat-icon-sm">add_shopping_cart</mat-icon>
+                <a matLine [routerLink]="['/account/orders']" routerLinkActive="horizontal-active-link"
+                    [routerLinkActiveOptions]="{exact:true}">Order History</a>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon matListIcon class="mat-icon-sm">shopping_basket</mat-icon>
+                <a matLine [routerLink]="['/account/purchased']" routerLinkActive="horizontal-active-link"
+                    [routerLinkActiveOptions]="{exact:true}">Purchased Items</a>
+            </mat-list-item>
+            <mat-list-item>
+                <mat-icon matListIcon class="mat-icon-sm">event_note</mat-icon>
+                <a matLine [routerLink]="['/account/checklist']" routerLinkActive="horizontal-active-link"
+                    [routerLinkActiveOptions]="{exact:true}">Check List</a>
+            </mat-list-item>
+            <mat-list-item *ngIf="appservice.Data.UserDetails.length > 0">
+                <mat-icon matListIcon class="mat-icon-sm">power_settings_new</mat-icon>
+                <a matLine (click)="Onclicklink()">Logout</a>
+            </mat-list-item>
+
+            <mat-list-item *ngIf="appservice.Data.UserDetails.length == 0">
+                <mat-icon matListIcon class="mat-icon-sm">power_settings_new</mat-icon>
+                <a matLine (click)="Onclicklink()">Login</a>
+            </mat-list-item>
+            <!-- <mat-list-item *ngFor="let link of links">
+                <mat-icon matListIcon class="mat-icon-sm">{{link.icon}}</mat-icon>
+                <a matLine [routerLink]="link.href" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">{{ link.name }}</a>
+            </mat-list-item> -->
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="account-content" ngClass.gt-sm="p-left">
+        <div fxLayout="row" [fxHide]='true' [fxShow.lt-md]='true' fxLayoutAlign="space-between center" class="header-row mat-elevation-z1 text-muted">
+            <button *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <h3>My Account</h3>
+        </div>
+        <div class="account-wrapper mat-elevation-z1">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

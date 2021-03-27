@@ -1,0 +1,34 @@
+<!-- <h2 class="px-1">Trending Offers</h2> -->
+<div fxLayout="row">
+  <img width="100%" src="assets/images/Banner/banners-offers.jpg">
+</div>
+<div fxLayout='row' fxLayout.lt-md='column' class="on-price">
+  <div fxFlex='33.33' fxFlex.lt-md='100' class="col-price">
+    <!-- <div fxLayout='column' fxLayoutAlign='center center' class="title-head">
+      <div class='center-head'>
+      <div class="title-main">NEW COLLECTION</div>
+      <div class="title-sub"> GET UP TO <span style="color: #2879fe">70% OFF</span></div>
+    </div>
+    </div> -->
+    <div class="bg-img" *ngIf="offerBanner.banner1" [style.background]="'url(' + offerBanner.banner1 + ')'"></div>
+  </div>
+  <div fxFlex='33.33' fxFlex.lt-md='100' class="col-price">
+    <!-- <div fxLayout='column' fxLayoutAlign='center center' class="title-head">
+      <div class='center-head'>
+      <div class="title-main">NEW ARRIVALS</div>
+      <div class="title-sub"> SPECIAL <span style="color: #2879fe">OFFER%</span></div>
+    </div>
+    </div> -->
+    <div class="bg-img" *ngIf="offerBanner.banner2" [style.background]="'url(' + offerBanner.banner2 + ')'"></div>
+  </div>
+  <div fxFlex='33.33' fxFlex.lt-md='100' class="col-price">
+    <!-- <div fxLayout='column' fxLayoutAlign='center center' class="title-head">
+      <div class='center-head'>
+      <div class="title-main">SUMMER COLLECTION</div>
+      <div class="title-sub"> COMMING <span style="color: #2879fe">SOON</span></div>
+    </div>
+    </div> -->
+    <div class="bg-img" *ngIf="offerBanner.banner3" [style.background]="'url(' + offerBanner.banner3 + ')'"></div>
+  </div>
+
+</div>

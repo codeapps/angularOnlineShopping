@@ -1,0 +1,90 @@
+::ng-deep {
+    
+  .mat-form-field-flex>.mat-form-field-infix {
+    padding: 0.4em 0px !important;
+  }
+
+  .mat-form-field-label-wrapper {
+    top: -1.5em;
+  }
+
+  .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+  }
+
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  .mat-form-field {
+     font-size: 15px;
+  }
+
+
+    .tbl-report {
+        margin-top: 10px;
+        font-family: sans-serif;
+        max-height: 450px;
+        overflow: auto;
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          tr.mat-header-row {
+            height: 20px;
+        }
+          tr.mat-footer-row, tr.mat-row {
+            height: 20px;
+        }
+        td.mat-cell:first-of-type {
+            padding: 0;
+        }
+          th {
+            background-color: #fff;
+            padding: 8px;
+            color: #333;
+            font-size: 14px;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            position: sticky;
+            top: 0;
+            z-index: 9;
+            text-align: left;
+            &:last-child {
+                border-right: 0;
+            }
+            &:first-child {
+              text-align: center;
+              width: 50px;
+           }
+          }
+          td {
+            padding: 5px;
+            text-align: center;
+            font-size: 13px;
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            text-align: left;
+            button {
+              height: 16px;
+              width: 16px;
+              line-height: 16px;
+            }
+            .mat-icon {
+                cursor: pointer;
+                width: 15px;
+                height: 15px;
+                font-size: 15px;
+                line-height: 15px;
+            }
+            &:last-child {
+                border-right: 0;
+            }
+            &:first-child {
+             text-align: center;
+             width: 50px;
+          }
+          }
+        }
+      }
+}

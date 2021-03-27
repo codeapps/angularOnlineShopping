@@ -1,0 +1,45 @@
+@import '../../../assets/css/themestyles.scss';
+.th-span {
+  display: block;
+  white-space: nowrap;
+}
+.container{
+    margin-top: 60px;
+    margin-left: 20px;
+    max-width: 100%;
+}
+
+.tbl-report{
+    width: 100%;
+    table{
+        th{
+            background-color: blueviolet;
+            color: white;
+            z-index: 9 !important;
+        }
+        td{
+            padding-left: 14px;
+        }
+    }
+}
+
+.tblUnit{
+    width: 100%;
+    border: none;
+    outline: 0;
+    padding: 4px;
+    option:hover{
+        background-color: blue;
+    }
+}
+
+  .tbl-report table tr.mat-row:hover {
+    background-color: yellow;
+}
+
+.general-settings{
+    margin-top: 40px;
+    .label{
+        font-size: 20px;
+    }
+}

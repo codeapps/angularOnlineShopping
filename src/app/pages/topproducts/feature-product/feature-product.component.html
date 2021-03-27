@@ -1,0 +1,38 @@
+<div fxLayout="column" *ngIf="products.length > 0">
+  <div fxLayout="row" fxLayoutAlign='space-between center' class="header">
+    <h2>Our Latest Products</h2>
+    <a mat-flat-button color='primary' [routerLink]="['/features']" >View All</a>
+  </div>
+  <div fxLayout="row" fxFlex="100">
+    <div #swiper [swiper]="config" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" *ngFor="let product of products;index as i">
+          <mat-card class="product-item text-center">
+            <a [routerLink]="['/products', product.id, product.name]" class="image-link">
+              <!-- <img [src]="product.images[0].medium"
+                onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'" alt=""> -->
+                <img  (load)="onImgLoad(i)" [attr.data-src]="product.images[0].medium"
+                onError="this.src='https://via.placeholder.com/180x135/607D8B/fff/?text=480 X 360'" class="swiper-lazy"/>
+                <div class="swiper-lazy-preloader"></div>
+
+            </a>
+            <div class="product-text">
+              <a matTooltip="{{product.name}}" [routerLink]="['/products', product.id, product.name]">
+                {{product.name}}
+              </a>
+            </div>
+            <p class="cat-product">{{categoryName[i]}}</p>
+
+          </mat-card>
+        </div>
+      </div>
+      <button class="swiper-button-left">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button class="swiper-button-right">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+
+    </div>
+  </div>
+</div>

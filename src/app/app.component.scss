@@ -1,0 +1,45 @@
+::ng-deep {
+  h4 {
+    font-size: initial;
+  }
+
+  h3 {
+    font-size: initial;
+  }
+
+  h2 {
+    font-size: x-large;
+  }
+}
+
+.settings-popup {
+  position: fixed;
+  margin: auto;
+  top: 0;
+  z-index: 100;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .inner-pop {
+    background: #fff;
+    padding: 20px;
+    //   box-shadow: 1px 1px 8px 2px #ccc;
+    width: 35vw;
+
+    .pop-box {
+      padding: 10px;
+      border: 1px solid #ccc;
+      position: relative;
+
+      h4 {
+        position: absolute;
+        top: -19px;
+        background: #fff;
+        color: brown;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}

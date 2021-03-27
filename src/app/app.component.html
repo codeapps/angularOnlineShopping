@@ -1,0 +1,40 @@
+<div id="app" class="h-100 app" [ngClass]="settings.theme">
+
+    <router-outlet></router-outlet>
+    <!-- <ngx-spinner [bdOpacity]= "0.7" [bdColor] = "'#333'" [size] = "'large'" [color] = "'#fff'" [type] = "'ball-clip-rotate'"></ngx-spinner>     -->
+    <!-- <ngx-spinner bdColor="rgba(51,51,51,0.7)" size="large" color= "#fff" type="ball-clip-rotate"></ngx-spinner>      -->
+</div>
+
+<div *ngIf="settingsLogin" class="settings-popup" fxLayoutAlign='center center'>
+
+    <div class="inner-pop">
+
+        <div fxLayout='column' fxLayoutGap='10px' class="pop-box">
+            <h4>Settings Login</h4>
+
+            <mat-form-field appearance='outline'>
+                <mat-label>User Name</mat-label>
+                <input #username matInput [(ngModel)]="setName" id='txtsetname' 
+                type="text" (keydown.enter)='pwd.focus()' autocomplete="off">
+            </mat-form-field>
+
+            <mat-form-field appearance='outline'>
+                <mat-label>Password</mat-label>
+                <input #pwd matInput type="password" [(ngModel)]="setPassword"
+                (keydown.enter)='fnLogin()'>
+            </mat-form-field>
+
+            <div fxLayout='row' fxLayoutGap='10px' fxFlexAlign='end'> 
+                <button  mat-button color='primary' (click)="fnLogin()">Login</button>
+                <button mat-button color='warn' (click)="fnClose()">Cancel</button>
+            </div>
+
+            <!-- <div *ngIf="btnshow" fxLayout='row' fxLayoutGap='10px'>
+                <button mat-raised-button color='primary' (click)="fnsoftwareSettings()">Software Settings</button>
+                <button mat-raised-button color='accent' (click)="fnUserMenu()">User Menu</button>
+            </div> -->
+        </div>
+
+    </div>
+
+</div>

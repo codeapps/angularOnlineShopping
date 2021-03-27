@@ -1,0 +1,14 @@
+<div fxFlex='100' fxLayout="row wrap" fxLayoutAlign="start start" fxLayoutGap="10px">
+    <!-- <mat-form-field style="width: 100%;"> -->
+        <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip *ngFor="let chip of selectChips" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(chip)">
+                {{chip.Manufacture_Name}}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <!-- <input placeholder="New fruit..." [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)"> -->
+        </mat-chip-list>
+    <!-- </mat-form-field> -->
+</div>

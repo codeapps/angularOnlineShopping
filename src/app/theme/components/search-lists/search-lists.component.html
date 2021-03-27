@@ -1,0 +1,26 @@
+<div fxHide [fxHide.gt-sm]='!show' class="back-drop" (click)='show = false'></div>
+<div class="search-container" *ngIf="show || loading" [style.width.px]='menuWidth' perfectScrollbar>
+  <div fxLayoutAlign='center center' *ngIf="loading">
+    <mat-spinner color="primary"
+    mode="indeterminate"
+    value="10"
+    strokeWidth='2'
+    diameter='50'>
+  </mat-spinner>
+</div>
+<div *ngFor="let search of searchData; let i = index" >
+  <a fxLayout='row' fxLayoutAlign='start center' class="search-row"
+  (click)='searchToRoute(search)' >
+
+    <div fxLayoutAlign='center center' class="sh-image">
+      <img *ngIf="search.ImageLoc" [src]='search.ImageLoc' alt="">
+      <mat-icon *ngIf="!search.ImageLoc">search</mat-icon>
+    </div>
+
+    <div fxLayout='column' fxLayoutAlign='start start' class="text-bar">
+      <span class="text-muted">{{search.SearchContent}}</span>
+      <span matLine>{{search.SearchContentParent}}</span>
+    </div>
+  </a>
+</div>
+</div>

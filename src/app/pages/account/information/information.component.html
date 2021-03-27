@@ -1,0 +1,60 @@
+<div fxLayout="row" fxLayoutAlign="center start">
+    <h2 class="text-muted text-center">Account details</h2>
+</div>
+
+<form [formGroup]="passwordForm" (ngSubmit)="onPasswordFormSubmit(passwordForm.value)">
+    <div fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2">
+
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="First Name" formControlName="firstName" required>
+                <mat-error *ngIf="passwordForm.controls['firstName'].errors?.required">First Name is required
+                </mat-error>
+                <mat-error *ngIf="passwordForm.controls['firstName'].hasError('minlength')">First Name isn't long
+                    enough, minimum of 3 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Current Password" [(ngModel)]="password" formControlName="currentPassword"
+                    [type]="show ? 'text' : 'password'" minlength="6" required>
+                <mat-error *ngIf="passwordForm.controls['currentPassword'].errors?.required">Current Password is
+                    required</mat-error>
+                <mat-error *ngIf="passwordForm.controls['currentPassword'].hasError('minlength')">Current Password isn't
+                    long enough, minimum of 6 characters</mat-error>
+            </mat-form-field>
+            <div class="btl-visible">
+                <button mat-icon-button  (click)="show = !show">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+    
+            </div>
+           
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="New Password" formControlName="newPassword" type="password" minlength="6"
+                    required>
+                <mat-error *ngIf="passwordForm.controls['newPassword'].errors?.required">New Password is required
+                </mat-error>
+                <mat-error *ngIf="passwordForm.controls['newPassword'].hasError('minlength')">New Password isn't long
+                    enough, minimum of 6 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mt-1">
+                <input matInput placeholder="Confirm New Password" formControlName="confirmNewPassword" type="password"
+                    required>
+                <mat-error *ngIf="passwordForm.controls['confirmNewPassword'].errors?.required">Confirm New Password is
+                    required</mat-error>
+                <mat-error *ngIf="passwordForm.controls['confirmNewPassword'].hasError('mismatchedPasswords')">Passwords
+                    do not match</mat-error>
+            </mat-form-field>
+
+        </div>
+    </div>
+</form>
+
+
+
+<div fxLayout="row" fxLayoutAlign="center start">
+    <div class="text-center mt-2">
+        <button mat-raised-button color="primary" (click)="onPasswordFormSubmit(passwordForm.value)">Change</button>
+    </div>
+</div>

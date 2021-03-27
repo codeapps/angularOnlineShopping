@@ -1,0 +1,210 @@
+<section [fxHide]='brandView' fxLayout='column' class="p-1">
+
+  <div fxLayoutAlign='space-between center' fxLayout.lt-sm='column'>
+    <button mat-flat-button color="primary" [routerLink]="[ '/admin']">Go Back</button>
+    <mat-form-field appearance='outline'>
+      <mat-label>Filter</mat-label>
+      <input matInput placeholder="Enter brand name" (keyup)="applyFilter($event.target.value, 'brand')">
+      <mat-icon matPrefix>search</mat-icon>
+    </mat-form-field>
+  </div>
+  <!-- <h4>Manufacture List</h4> -->
+  <div fxLayout='row' class="brand-table mat-elevation-z8">
+    <table mat-table [dataSource]="brandSource">
+      <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+        <th mat-header-cell *matHeaderCellDef> Sl No </th>
+        <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+      </ng-container>
+
+      <!-- Manufacture Column -->
+      <ng-container matColumnDef="manufacturename">
+        <th mat-header-cell *matHeaderCellDef> Manufacture Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.Manufacture_Name}} </td>
+      </ng-container>
+
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-mini-fab color="primary" (click)="fnGetProduct(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="brandColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: brandColumns;"></tr>
+    </table>
+
+  </div>
+</section>
+
+<section [fxHide]='!brandView' class="p-1">
+  <div fxLayout='column' *ngIf="!productView">
+
+    <div fxLayoutAlign='space-between center' fxLayout.lt-sm='column'>
+      <button mat-flat-button color="primary" (click)='brandView = false'>Go Back</button>
+      <p *ngIf="productSource && (productSource.data && productSource.data[0])">
+       Brand: {{productSource.data[0].Manufacture_Name}}
+      </p>
+      <mat-form-field appearance='outline'>
+        <mat-label>Filter</mat-label>
+        <input matInput placeholder="Enter brand name" (keyup)="applyFilter($event.target.value, 'product')">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout='row' class="brand-table mat-elevation-z8">
+      <table mat-table [dataSource]="productSource">
+        <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+        <!-- Edit Column -->
+        <ng-container matColumnDef="edit">
+          <th mat-header-cell *matHeaderCellDef> Edit </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="primary" (click)="onEditProduct(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <!-- itemdesc Column -->
+        <ng-container matColumnDef="itemdesc">
+          <th mat-header-cell *matHeaderCellDef> Product Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.ItemDesc}} </td>
+        </ng-container>
+
+        <!-- ImageLoc Column -->
+        <ng-container matColumnDef="ImageLoc">
+          <th mat-header-cell *matHeaderCellDef> Image FileName </th>
+          <td mat-cell *matCellDef="let element"> {{element.ImageLoc}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="manufacturename">
+          <th mat-header-cell *matHeaderCellDef> Manufacture Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.Manufacture_Name}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="categoryname">
+          <th mat-header-cell *matHeaderCellDef> Category Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.CategoryName}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="productColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: productColumns;"></tr>
+      </table>
+
+    </div>
+  </div>
+
+  <div fxLayout='column' fxLayoutGap='10px' *ngIf="productView">
+    <div fxLayoutAlign='start' fxLayout.lt-sm='column' fxLayoutGap='10px'>
+      <button mat-flat-button color="primary" (click)='productView = false'>Go Back</button>
+      <button mat-flat-button color="primary" (click)="fnSave()" [disabled]='loading'>
+        <div fxLayout='row' fxLayoutGap='5px' fxLayoutAlign='center center'>
+        <span>Save</span>
+        <mat-spinner strokeWidth='2' *ngIf="loading"
+        diameter='25' value='50' color="warn"></mat-spinner>
+      </div>
+      </button>
+    </div>
+    <mat-progress-bar *ngIf="progress > 0" [value]='progress' color="primary"></mat-progress-bar>
+    <span class="upload" *ngIf="progress > 0">
+      {{progress}}%
+    </span>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Edit Product</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="productForm" fxLayout='row wrap'>
+          <div fxFlex='40' fxFlex.sm='100' fxLayout='column' class="px-1">
+            <div>
+              <p class="mt-1">
+                <span class="uppercase fw-500">Main Image</span>
+              </p>
+
+              <div>
+                <input-file [iconDelete]='null' fileLimit="1" formControlName="mainImage" fileAccept="image/*"
+                 [linkEnabled]="false"></input-file>
+              </div>
+            </div>
+
+            <div>
+              <p class="mt-1">
+                <span class="uppercase fw-500">Sub Images</span>
+                <span class="text-muted px-1">(max 8 images)</span>
+              </p>
+
+              <input-file fileLimit="8" formControlName="subImages" fileAccept="image/*"
+               [linkEnabled]="false" (deletedFile)='removeSubImage($event)'></input-file>
+            </div>
+
+          </div>
+
+          <div fxFlex='60' fxFlex.sm='100' class="px-1">
+            <div fxLayout='row wrap'>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Product Name</mat-label>
+                  <input matInput formControlName="productName" />
+                  <mat-error *ngIf="productForm.controls['productName'].errors?.required">Product name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Company Name</mat-label>
+                  <input matInput formControlName="companyName" readonly/>
+                  <!-- <mat-error *ngIf="productForm.controls['companyName'].errors?.required">Company name is required
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Category </mat-label>
+                  <mat-select formControlName="categoryId">
+                    <mat-option *ngFor="let item of Categorylist" [value]='item.CategoryID'>{{item.CategoryDesc}}</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="productForm.controls['categoryId'].errors?.required">Category name is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Discount</mat-label>
+                  <input matInput formControlName="discount" type='number' />
+                </mat-form-field>
+              </div>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Batch</mat-label>
+                  <input matInput formControlName="batch" type='number' />
+                </mat-form-field>
+              </div>
+              <div fxFlex='100' fxFlex.gt-sm='50' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Location</mat-label>
+                  <input matInput formControlName="location" type='number' />
+                </mat-form-field>
+              </div>
+
+              <div fxFlex='100' class="px-1">
+                <mat-form-field appearance='outline' class="w-100">
+                  <mat-label>Description</mat-label>
+                  <textarea matInput formControlName="description"></textarea>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>

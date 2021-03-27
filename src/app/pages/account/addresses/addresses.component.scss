@@ -1,0 +1,46 @@
+
+  ::ng-deep .mat-dialog-container{
+      overflow: visible !important;
+      .close-btn-outer{
+          position: relative;
+          button{
+              position: absolute;
+              right: -44px;
+              top: -44px;
+          }
+      }
+
+  }
+
+.login-pop{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .login-innerpop {
+        justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 100%;
+        .login-pop-box {
+            background: #ffff;
+            box-shadow: 0 0 4px #abaaaa;
+            padding: 20px;
+            text-align: center;
+        }
+    }
+}
+.tab-button {
+  a {
+    cursor: pointer;
+  }
+  a.ac-add{
+    color: #6495ed;
+  }
+  a.ac-remove {
+    color: #cd5c5c;
+  }
+
+}

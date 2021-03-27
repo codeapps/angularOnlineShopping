@@ -1,0 +1,27 @@
+@import './../../../../../assets/css/print.css';
+.order-dialog {
+    .mat-dialog-container {
+        overflow: visible !important;
+
+        .close-btn-outer {
+            position: relative;
+
+            button {
+                position: absolute;
+                right: -44px;
+                top: -44px;
+            }
+        }
+
+        .print-btn-outer {
+            position: relative;
+
+            button {
+                position: absolute;
+                right: 0px;
+                top: -44px;
+            }
+        }
+    }
+}
+

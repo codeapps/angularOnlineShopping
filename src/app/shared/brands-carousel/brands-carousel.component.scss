@@ -1,0 +1,48 @@
+.brands-carousel {
+    background: #fff;
+    position: relative;
+    padding: 8px 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .swiper-container {
+        padding: 8px 2px;
+        margin: 0 14px;
+
+        .brand-item {
+            height: 130px;
+            padding: 0px;
+            display: flex;
+            align-items: center;
+
+            img {
+                max-width: 100%;
+                max-height: 100%;
+                margin: 0 auto;
+            }
+        }
+    }
+
+    .swiper-button-prev {
+        left: -10px;
+    }
+
+    .swiper-button-next {
+        right: -10px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .brands-carousel {
+        padding: 0px 0;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .swipe-arrow{
+        display: none;
+    }
+}
+
+.boxshadow {
+  box-shadow: 3px 4px 3px -3px #ccc;
+}

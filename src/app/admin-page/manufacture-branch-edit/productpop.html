@@ -1,0 +1,47 @@
+<div fxLayout='column'>
+    <div fxLayout='row' fxLayoutGap='10px'>
+      <button mat-flat-button color='primary' (click)="fnInsert()">Save</button>
+      <button mat-flat-button color='warn' (click)="fnClose()">Close</button>
+    </div>
+  
+    <div fxLayout='row' fxFlexFill>
+  
+      <div fxLayout='column' fxFlex='50' fxLayoutGap='10px' class='col-size'>
+        <!-- <mat-form-field appearance='outline'>
+          <mat-label>Category Main</mat-label>
+          <input matInput [(ngModel)]="groupName" disabled>
+        </mat-form-field> -->   
+  
+        <mat-form-field appearance='outline'>
+          <mat-label>Category MainName</mat-label>
+          <input matInput id="txtcategoryname" [(ngModel)]="categoryName">
+        </mat-form-field>
+  
+        <mat-form-field appearance='outline'>
+          <mat-label>Manufacture Name</mat-label>
+          <mat-select [(ngModel)]="ddlManufacture">
+            <mat-option *ngFor="let item of manufactureSource" [value]='item.Manufacture_Id'>
+              {{item.Manufacture_Name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>        
+      </div>
+  
+      <div fxLayout='column' fxFlex='50' fxLayoutGap='10px' class='col-size'>
+        <mat-form-field appearance='outline'>
+          <mat-label>Order No</mat-label>
+          <input matInput [(ngModel)]="txtCategoryHeadOrderNo">
+        </mat-form-field>
+  
+        <mat-form-field appearance='outline'>
+          <mat-label>Shopping Display Name</mat-label>
+          <input matInput [(ngModel)]="txtDisplayName">
+        </mat-form-field>
+  
+        <mat-form-field appearance='outline'>
+          <mat-label>Remarks</mat-label>
+          <textarea matInput [(ngModel)]="txtRemarks"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>

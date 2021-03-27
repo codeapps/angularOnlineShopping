@@ -1,0 +1,144 @@
+<mat-sidenav-container>
+
+  <mat-sidenav #sidenav [opened]="sidenavOpen" [mode]="sidenavOpen ? 'side' : 'over'" class="filter-sidenav"
+    [fixedInViewport]='true' [fixedBottomGap]='45' [fixedTopGap]='100' perfectScrollbar>
+    <!-- [style.max-height.px]="accrod.elementRef.nativeElement.clientHeight" -->
+    <div>
+      <div class="px-1" fxLayoutAlign='space-between center'>
+        <h4>Filters</h4>
+        <button mat-button color="primary" (click)="onClearAll()">Clear All</button>
+      </div>
+      <mat-accordion displayMode="flat" multi="true" class="filter-sub">
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <h4 style="font-size: 15px;">Categories</h4>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="categories-wrapper categories-dropdown" perfectScrollbar>
+            <div *ngFor="let category of categories" (click)="changeCategory(category)">
+              <button mat-menu-item >
+                <span>{{category?.CategoryDesc}}</span>
+            </button>
+          </div>
+          </div>
+      </mat-expansion-panel>
+
+        <mat-expansion-panel expanded>
+          <mat-expansion-panel-header style="height: 30px;">
+            <mat-panel-title>
+              <h5 style="font-size: 15px;">Price</h5>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <!-- <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+          <span>From: <b>&#8377;{{priceFrom}}</b></span>
+          <span>To: <b>&#8377;{{priceTo}}</b></span>
+        </div> -->
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="filter-price">
+            <mat-slider color="primary" [max]="maxPrice" [min]="minPrice" thumbLabel [displayWith]="formatLabel"
+              tickInterval="1000" [(ngModel)]="priceFrom" (change)="onChangeSlider()"></mat-slider>
+
+            <mat-slider color="warn" [max]="maxPrice" [min]="minPrice" thumbLabel [displayWith]="formatLabel"
+              tickInterval="1000" [(ngModel)]="priceTo" (change)="onChangeSlider()"></mat-slider>
+          </div>
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="ddprice">
+            <mat-form-field class="ddpricefrom-form">
+              <mat-label>Min</mat-label>
+
+              <mat-select [(ngModel)]="minPrice" (selectionChange)='onChangeFromPrice()'>
+                <mat-option *ngFor="let item of priceList" [value]="item" [disabled]='maxPrice <= item'>
+                  &#8377;&nbsp;{{item}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field><span>To</span>
+            <mat-form-field class="ddpriceto-form">
+              <mat-label>Max</mat-label>
+              <mat-select [(ngModel)]="maxPrice" (selectionChange)='onChangeToPrice()'>
+                <mat-option *ngFor="let item of priceList" [value]="item" [disabled]='minPrice >= item'>
+                  &#8377;&nbsp;{{item}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngFor="let item of categoryHeadData" expanded>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h5 style="font-size: 15px;">{{item.name}}</h5>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+              <div class="categories-wrapper categories-dropdown"  perfectScrollbar>
+                <div *ngFor="let child of item.child" class="specification-band">
+                <mat-checkbox (click)="$event.stopPropagation()" (change)="onChangeProduct(child)"
+                  [checked]="specificationSelection.isSelected(child)" color="warn">
+
+                  <span class="text-brand">{{child.SpecificationMain_Name}} </span>
+                  <span class="badge-avilable">
+                    {{getAvilableCount(child.SpecificationMain_Id)}}</span>
+                </mat-checkbox>
+              </div>
+              </div>
+
+        </mat-expansion-panel>
+
+
+      </mat-accordion>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="all-products" ngClass.gt-sm="p-left">
+    <div fxLayout="column" class="filter-row mat-elevation-z1 text-muted">
+    <div fxLayout="row" fxLayoutAlign="space-between center" >
+      <button class="side-nav" *ngIf="!sidenavOpen" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <div class="sortdefault">
+        <a mat-button [matMenuTriggerFor]="sortMenu" #sortMenuTrigger="matMenuTrigger">
+          {{sort}}<mat-icon class="mat-icon-sm caret">arrow_drop_down</mat-icon>
+        </a>
+        <mat-menu #sortMenu="matMenu" xPosition="before" class="app-dropdown" overlapTrigger="true">
+          <span (mouseleave)="sortMenuTrigger.closeMenu()">
+            <button mat-menu-item *ngFor="let sort of sortings" (click)="changeSorting(sort)">
+              <span>{{sort}}</span>
+            </button>
+          </span>
+        </mat-menu>
+      </div>
+      <div >
+        <button mat-button (click)="type = !type">
+          {{type ? 'Show Products': 'All Products'}}
+        </button>
+
+        <button mat-icon-button fxHide.lt-sm (click)="changeViewType('list', 100)">
+          <mat-icon>view_list</mat-icon>
+        </button>
+        <button mat-icon-button fxHide.lt-sm (click)="changeViewType('grid', 33.3)">
+          <mat-icon>view_module</mat-icon>
+        </button>
+        <button mat-icon-button fxHide.lt-sm (click)="changeViewType('grid', 25)">
+          <mat-icon>view_comfy</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div fxLayout='row' fxLayout.lt-sm='column' fxLayoutAlign='start center'
+    fxLayoutAlign.lt-sm='center center' class="text-muted" style="padding: 5px; width: 100%;">
+      <p style="padding: 0 15px;" [style.font-weight]="categoryName ? '': 'bold'">{{brandName}}
+        <span class="breadcrumb-item" *ngIf="categoryName"><b> {{categoryName}}</b></span>
+      </p>
+
+      <span style="font-size: 12px;">(Showing {{products.length > count ? count: products.length}} – {{products.length}} )</span>
+    </div>
+  </div>
+  <div class="backdrop" *ngIf="loading"></div>
+    <div *ngIf="loading" fxLayoutAlign='center center' class="mt-1" style="height: 500px">
+      <img height='100%' src="assets/images/others/loader.gif">
+    </div>
+
+    <app-product-view *ngIf="!loading" [pviewType]='viewType' [pviewCol]='viewCol' [ptype]='type'
+      [product]='products'></app-product-view>
+    <!-- <div #bottom></div> -->
+  </mat-sidenav-content>
+
+</mat-sidenav-container>
